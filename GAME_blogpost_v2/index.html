@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --text-width: 1080px; 
+            --bg-color: #fafaf8;
+            --accent: #000;
+        }
+        
+        body { 
+            font-family: 'Crimson Pro', serif; 
+            line-height: 1.7; 
+            color: #1a1a1a; 
+            margin: 0; 
+            background: var(--bg-color); 
+            font-size: 1.25rem; 
+        }
+
+        /* ── Full Width Teaser ── */
+        .teaser-outer {
+            width: 100%;
+            background: #fafaf8;
+            padding-bottom: 2rem; /* Space for the main caption below the videos */
+        }
+
+        .teaser-container {
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .teaser-item {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .teaser-item video {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Sub-labels (a, b, c...) */
+        .teaser-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* Main caption below the whole strip */
+        .teaser-main-caption {
+            max-width: var(--text-width); /* Matches your article width */
+            margin: 1.5rem auto 0;
+            padding: 0 20px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .container { 
+            max-width: var(--text-width); 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        
+        header { text-align: center; padding: 4rem 0 3rem; }
+        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; }
+        
+        .date { font-family: 'Inter', sans-serif; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .authors { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin: 2rem 0; }
+        .author { display: flex; flex-direction: column; align-items: center; font-family: 'Inter', sans-serif; font-size: 0.95rem; }
+        .affil { color: #888; font-size: 0.8rem; margin-top: 2px; }
+
+        .links { display: flex; justify-content: center; gap: 12px; margin-bottom: 3rem; }
+        .btn { 
+            font-family: 'Inter', sans-serif; 
+            text-decoration: none; 
+            color: #000; 
+            border: 1px solid #ddd; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            font-size: 0.85rem; 
+            transition: all 0.2s; 
+        }
+        .btn:hover { background: #fafaf8; border-color: #bbb; }
+
+        /* ── Updated Abstract Styling ── */
+        .abstract-section {
+            max-width: 1080px;
+            margin: 0 auto 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 0rem;
+        }
+
+        .abstract-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin: 0;
+            /* FIX: Justify the text */
+            text-align: justify;
+        }
+
+        /* Figure Styling */
+        .post-figure {
+            max-width: 100%;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .post-figure img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .figure-caption {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* BibTeX Fix (Black background, orange text) */
+        .post-body pre {
+            background: #1a1a1a !important; 
+            border-radius: 6px;
+            padding: 1.5rem;
+        }
+
+        .post-body pre code {
+            color: #ffbb00 !important;
+            background: transparent !important;
+        }
+        /* --- Citation Tooltip --- */
+        .cite-ref {
+            color: #007bff;
+            cursor: help;
+            position: relative;
+            font-size: 0.9em;
+            vertical-align: super;
+        }
+
+        .cite-ref:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 250px;
+            line-height: 1.4;
+            z-index: 100;
+            font-family: 'Inter', sans-serif;
+            font-style: normal;
+            text-align: left;
+        }
+
+        /* --- References List --- */
+        .references-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .references-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .references-section ol {
+            font-size: 0.95rem;
+            color: #555;
+            padding-left: 1.5rem;
+        }
+
+        .references-section li {
+            margin-bottom: 0.5rem;
+        }
+        /* ── Updated Code/BibTeX Styling ── */
+        .post-body pre {
+            background: rgb(98, 255, 7); /* Dark background */
+            border-radius: 6px;
+            padding: 1.2rem 1.4rem;
+            overflow-x: auto;
+            margin: 1.5rem 0 1.8rem;
+            /* Ensure no unexpected white borders or shadows */
+            border: none; 
+        }
+
+        .post-body pre code {
+            background: transparent; /* Remove white/highlight background */
+            color: #ffbb00;          /* Off-white text for readability */
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0;
+            line-height: 1.5;
+            /* Reset any inherited highlighting from markdown extensions */
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        /* Specific fix for BibTeX header if you write it as a header */
+        .post-body h2 + pre {
+            margin-top: 0.5rem;
+        }
+
+        /* ── Direct-on-background Figures ── */
+        .content img, .content video {
+            width: 100%;
+            height: auto;
+            margin: 1.5rem 0;
+            /* Removed borders/backgrounds for the flat look */
+            border: none; 
+            box-shadow: none;
+        }
+
+        /* ── Typography & Headers ── */
+        h2 { font-family: 'Inter', sans-serif; font-size: 1.8rem; margin-top: 4rem; font-weight: 600; }
+        p { margin-bottom: 1.6rem; }
+        
+        code { font-family: monospace; background: #f4f4f400; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+        pre { background: #1e1e1e; color: #efefef; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; }
+        
+        blockquote { 
+            border-left: 4px solid #000; 
+            margin: 2rem 0; 
+            padding: 0.5rem 1.5rem; 
+            background: #f9f9f9;
+        }
+
+        /* Side-by-side helper class if you use HTML in MD */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 2rem 0; }
+    </style>
+</head>
+<body>
+    <div class="teaser-outer">
+        <div class="teaser-container">
+            <div class="teaser-item">
+  <video autoplay loop muted playsinline src="assets/parabellum_teaser.mp4"></video>
+  <div class="teaser-label">(a) Parabellum</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="assets/wrestling_teaser.mp4"></video>
+  <div class="teaser-label">(b) Wrestling</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="assets/Pong_teaser.mp4"></video>
+  <div class="teaser-label">(c) Pong</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="assets/CatAndMouse_teaser.mp4"></video>
+  <div class="teaser-label">(d) Cat & Mouse</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="assets/PursuersAndEvaders_teaser.mp4"></video>
+  <div class="teaser-label">(e) Pursuers & Evaders</div>
+</div>
+
+        </div>
+        <div class="teaser-main-caption">
+            <b>Figure 1.</b> Examples of adversarial behaviors across five environments.
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="date">April 23, 2026</div>
+            <h1>Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites</h1>
+            <div class="authors"><div class="author"><strong>Timothée Anne</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Noah Syrkis</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Meriem Elhosni</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Florian Turati</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alexandre Manai</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Franck Legendre</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alain Jaquier</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Sebastian Risi</strong><span class="affil">IT University of Copenhagen</span></div></div>
+            <div class="links"><a href="https://arxiv.org/pdf/2505.06617v3" class="btn">PDF 1</a><a href="https://github.com/Timothee-ANNE/GAME" class="btn">Code 1</a><a href="https://arxiv.org/pdf/2601.19562" class="btn">PDF 2</a><a href="https://github.com/Timothee-ANNE/GAME_tournament_informed" class="btn">Code 2</a></div>
+        </header>
+
+        <section class="abstract">
+            
+    <section class="abstract-section">
+        <h2>Abstract</h2>
+        <p>Quality-Diversity (QD) algorithms seek to discover diverse, high-performing solutions across a behavior space, in contrast to conventional optimization methods that target a single optimum. Adversarial problems present unique challenges for QD approaches, as the competing nature of opposing sides creates interdependencies that complicate the evolution process. Existing QD methods applied to such scenarios typically fix one side, constraining the open-endedness. We present Generational Adversarial MAP-Elites (GAME), a coevolutionary QD algorithm that evolves both sides by alternating which side is evolved at each generation. By integrating a vision embedding model (VEM), our approach eliminates the need for domain-specific behavior descriptors and instead operates on video. We validate GAME across three distinct adversarial domains: a multi-agent battle game, a soft-robot wrestling environment, and a deck building game. We validate that all its components are necessary, that the VEM is effective in two different domains, and that GAME finds better solutions than one-sided QD baselines. Our experiments reveal several evolutionary phenomena, including arms race-like dynamics, enhanced novelty through generational extinction, and the preservation of neutral mutations as crucial stepping stones toward the highest performance. While GAME successfully illuminates all three adversarial problems, its capacity for truly open-ended discovery remains constrained by the nature of the search spaces used in this paper. These findings show GAME's broad applicability and highlight opportunities for future research into open-ended adversarial coevolution.</p>
+    </section>
+    
+        </section>
+
+        <article class="content">
+            <figure class="post-figure">
+  <img src="assets/GAME_simplified.png" alt="figure" loading="lazy">
+  <div class="figure-caption"><strong>Overview</strong> is the iterative illumination of an adversarial problem using MTMB-ME <a href="https://arxiv.org/abs/2305.01264">Anne and Mouret (2023)</a>, switching sides at each generation to promote an arms race dynamic</div>
+</figure>
+<h2 id="introduction">Introduction</h2>
+<p>Content goes here.</p>
+<h2 id="methods-generational-adversarial-map-elites">Methods: Generational Adversarial MAP-Elites</h2>
+<p>To show two videos side-by-side without "overlays" or boxes, you can just use a simple HTML div in your markdown:</p>
+<p>In this work [^risi2020]</p>
+<h2 id="experiments">Experiments</h2>
+<h2 id="related-works">Related Works</h2>
+<h2 id="conclusion">Conclusion</h2>
+<h2 id="appendix">Appendix</h2>
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p>Funded by the armasuisse S+T project F00-007.</p>
+<h3 id="bibtex-citations">BibTeX citations</h3>
+<div class="codehilite"><pre><span></span><code><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">anne2025generational</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{Generational Adversarial MAP-Elites for Multi-Agent Game Illumination}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Anne, Timoth{\&#39;e}e and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">booktitle</span><span class="p">=</span><span class="s">{Artificial Life Conference Proceedings 37}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{31}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">organization</span><span class="p">=</span><span class="s">{MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}</span>
+<span class="p">}</span>
+
+<span class="nc">@misc</span><span class="p">{</span><span class="nl">anne2026tournamentinformedadversarialquality</span><span class="p">,</span>
+<span class="w">      </span><span class="na">title</span><span class="p">=</span><span class="s">{Tournament Informed Adversarial Quality Diversity}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="na">author</span><span class="p">=</span><span class="s">{Timothée Anne and Noah Syrkis and Meriem Elhosni and Florian Turati and Alexandre Manai and Franck Legendre and Alain Jaquier and Sebastian Risi}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">eprint</span><span class="p">=</span><span class="s">{2601.19562}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.NE}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">url</span><span class="p">=</span><span class="s">{https://arxiv.org/abs/2601.19562}</span><span class="p">,</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p></p>
+        </article>
+        
+        <footer style="padding: 5rem 0; text-align: center; color: #999; font-size: 0.8rem; font-family: 'Inter', sans-serif;">
+            © 2026 · Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites
+        </footer>
+    </div>
+
+</body>
+</html>

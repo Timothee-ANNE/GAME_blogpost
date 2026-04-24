@@ -44,35 +44,43 @@ def get_abstract_html(text):
     </section>
     '''
 
-# --- New Citation Logic ---
 def process_citations(text, meta):
-    # Get the references dictionary from frontmatter
     bib_data = meta.get('references', {})
     if not bib_data:
         return text, ""
 
     citations_found = []
-    citation_map = {} # maps key -> number
+    citation_map = {} 
     
-    # Find all [^key] patterns
     def replace_cite(m):
-        key = m.group(1)
-        if key not in bib_data:
-            return f"[{key}]"
+        raw_keys = m.group(1)
+        keys = [k.strip() for k in raw_keys.split(',')]
         
-        if key not in citation_map:
-            citation_map[key] = len(citations_found) + 1
-            citations_found.append(key)
+        nums_list = []
+        for key in keys:
+            if key not in bib_data:
+                # Instead of a string, we add a tuple with a placeholder to keep unpacking consistent
+                nums_list.append((f"??{key}??", "Reference not found in frontmatter"))
+                continue
+            
+            if key not in citation_map:
+                citation_map[key] = len(citations_found) + 1
+                citations_found.append(key)
+            
+            num = citation_map[key]
+            full_ref = html_module.escape(bib_data[key])
+            nums_list.append((num, full_ref))
         
-        num = citation_map[key]
-        full_ref = html_module.escape(bib_data[key])
-        # Return HTML with tooltip data attribute
-        return f'<span class="cite-ref" data-tooltip="{full_ref}">[{num}]</span>'
+        # Now every item in nums_list is a tuple (n, ref), so unpacking won't fail
+        formatted_nums = ", ".join([
+            f'<span class="cite-ref-num" data-tooltip="{ref}">{n}</span>' 
+            for n, ref in nums_list
+        ])
+        
+        return f'<span class="cite-ref-group">[{formatted_nums}]</span>'
 
-    # Process citations in the text
-    processed_text = re.sub(r'\[\^(\w+)\]', replace_cite, text)
+    processed_text = re.sub(r'\[\^([^\]]+)\]', replace_cite, text)
 
-    # Build the References List for the end
     if not citations_found:
         return processed_text, ""
 
@@ -82,7 +90,6 @@ def process_citations(text, meta):
     bib_html += '</ol></section>'
     
     return processed_text, bib_html
-
 
 def convert_md_to_blog(md_file, template_file, output_file):
     # Load raw file content
@@ -95,7 +102,6 @@ def convert_md_to_blog(md_file, template_file, output_file):
     else:
         meta = {}
         md_text = raw_content
-
     # 2. Process custom ::figure and ::video directives
     # This must happen before Markdown conversion so standard MD inside captions still works
     md_text = process_directives(md_text)

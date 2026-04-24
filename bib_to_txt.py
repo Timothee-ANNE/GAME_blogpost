@@ -621,6 +621,451 @@ BIB = """
   journal={IEEE Transactions on Evolutionary Computation},
   year={2025},
 }
+
+@book{elo1978rating,
+  address = {New York},
+  author = {Elo, Arpad E.},
+  isbn = {0668047216 9780668047210},
+  keywords = {cati},
+  publisher = {Arco Pub.},
+  refid = {4504131},
+  title = {The Rating of Chessplayers, Past and Present},
+  year = 1978
+}
+
+@book{osborne2004introduction,
+  title={An introduction to game theory},
+  author={Osborne, Martin J and others},
+  volume={3},
+  number={3},
+  year={2004},
+  publisher={Springer}
+}
+
+@inproceedings{anne2025generational,
+  title={Generational Adversarial MAP-Elites for Multi-Agent Game Illumination},
+  author={Anne, Timoth{\'e}e and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian},
+  booktitle={Artificial Life Conference Proceedings 37},
+  volume={2025},
+  number={1},
+  pages={31},
+  year={2025},
+  organization={MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}
+}
+
+@inproceedings{anne2023multi,
+  title={Multi-task multi-behavior map-elites},
+  author={Anne, Timoth{\'e}e and Mouret, Jean-Baptiste},
+  booktitle={Proceedings of the companion conference on genetic and evolutionary computation},
+  pages={111--114},
+  year={2023}
+}
+
+
+
+@article{deb2013evolutionary,
+  title={An evolutionary many-objective optimization algorithm using reference-point-based nondominated sorting approach, part I: solving problems with box constraints},
+  author={Deb, Kalyanmoy and Jain, Himanshu},
+  journal={IEEE transactions on evolutionary computation},
+  volume={18},
+  number={4},
+  pages={577--601},
+  year={2013},
+  publisher={IEEE}
+}
+
+
+@inproceedings{radford2021learning,
+  title={Learning transferable visual models from natural language supervision},
+  author={Radford, Alec and Kim, Jong Wook and Hallacy, Chris and Ramesh, Aditya and Goh, Gabriel and Agarwal, Sandhini and Sastry, Girish and Askell, Amanda and Mishkin, Pamela and Clark, Jack and others},
+  booktitle={International conference on machine learning},
+  pages={8748--8763},
+  year={2021},
+  organization={PmLR}
+}
+
+
+@misc{jax2018github,
+  author = {James Bradbury and Roy Frostig and Peter Hawkins and Matthew James Johnson and Chris Leary and Dougal Maclaurin and George Necula and Adam Paszke and Jake Vander{P}las and Skye Wanderman-{M}ilne and Qiao Zhang},
+  title = {{JAX}: composable transformations of {P}ython+{N}um{P}y programs},
+  version = {0.3.13},
+  year = {2018},
+}
+
+@book{isaacs1999differential,
+  title={Differential games: a mathematical theory with applications to warfare and pursuit, control and optimization},
+  author={Isaacs, Rufus},
+  year={1999},
+  publisher={Courier Corporation}
+}
+
+@article{dawkins1979arms,
+  title={Arms races between and within species},
+  author={Dawkins, Richard and Krebs, John Richard},
+  journal={Proceedings of the Royal Society of London. Series B. Biological Sciences},
+  volume={205},
+  number={1161},
+  pages={489--511},
+  year={1979},
+  publisher={The Royal Society London}
+}
+
+@inproceedings{ficici1998challenges,
+  title={Challenges in coevolutionary learning: Arms-race dynamics, open-endedness, and mediocre stable states},
+  author={Ficici, Sevan G and Pollack, Jordan B},
+  booktitle={Proceedings of the sixth international conference on Artificial life},
+  pages={238--247},
+  year={1998},
+  organization={MIT Press Cambridge, MA}
+}
+
+@inproceedings{wang2019poet,
+  title={Poet: open-ended coevolution of environments and their optimized solutions},
+  author={Wang, Rui and Lehman, Joel and Clune, Jeff and Stanley, Kenneth O},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference},
+  pages={142--151},
+  year={2019}
+}
+
+@inproceedings{wang2020enhanced,
+  title={Enhanced poet: Open-ended reinforcement learning through unbounded invention of learning challenges and their solutions},
+  author={Wang, Rui and Lehman, Joel and Rawal, Aditya and Zhi, Jiale and Li, Yulun and Clune, Jeffrey and Stanley, Kenneth},
+  booktitle={International conference on machine learning},
+  pages={9940--9951},
+  year={2020},
+  organization={PMLR}
+}
+
+@article{vinyals2019grandmaster,
+  title={Grandmaster level in StarCraft II using multi-agent reinforcement learning},
+  author={Vinyals, Oriol and Babuschkin, Igor and Czarnecki, Wojciech M and Mathieu, Micha{\"e}l and Dudzik, Andrew and Chung, Junyoung and Choi, David H and Powell, Richard and Ewalds, Timo and Georgiev, Petko and others},
+  journal={nature},
+  volume={575},
+  number={7782},
+  pages={350--354},
+  year={2019},
+  publisher={Nature Publishing Group}
+}
+
+@inproceedings{baker2019emergent,
+  title={Emergent tool use from multi-agent autocurricula},
+  author={Baker, Bowen and Kanitscheider, Ingmar and Markov, Todor and Wu, Yi and Powell, Glenn and McGrew, Bob and Mordatch, Igor},
+  booktitle={International conference on learning representations},
+  year={2019}
+}
+
+@inproceedings{lehman2011evolving,
+  title={Evolving a diversity of virtual creatures through novelty search and local competition},
+  author={Lehman, Joel and Stanley, Kenneth O},
+  booktitle={Proceedings of the 13th annual conference on Genetic and evolutionary computation},
+  pages={211--218},
+  year={2011}
+}
+
+
+@article{mouret2015illuminating,
+  title={Illuminating search spaces by mapping elites},
+  author={Mouret, Jean-Baptiste and Clune, Jeff},
+  journal={arXiv preprint arXiv:1504.04909},
+  year={2015}
+}
+
+@inproceedings{mouret2020quality,
+  title={Quality diversity for multi-task optimization},
+  author={Mouret, Jean-Baptiste and Maguire, Glenn},
+  booktitle={Proceedings of the 2020 Genetic and Evolutionary Computation Conference},
+  pages={121--129},
+  year={2020}
+}
+
+@inproceedings{fontaine2019mapping,
+  title={Mapping hearthstone deck spaces through map-elites with sliding boundaries},
+  author={Fontaine, Matthew C and Lee, Scott and Soros, Lisa B and de Mesentier Silva, Fernando and Togelius, Julian and Hoover, Amy K},
+  booktitle={Proceedings of The Genetic and Evolutionary Computation Conference},
+  pages={161--169},
+  year={2019}
+}
+
+
+@misc{hearthstone2014,
+  title        = {Hearthstone: Heroes of Warcraft},
+  author       = {{Blizzard Entertainment}},
+  year         = {2014},
+  publisher    = {{Blizzard Entertainment}},
+  note         = {Digital collectible card game},
+  url          = {https://playhearthstone.com/},
+}
+
+@inproceedings{fontaine2020covariance,
+  title={Covariance matrix adaptation for the rapid illumination of behavior space},
+  author={Fontaine, Matthew C and Togelius, Julian and Nikolaidis, Stefanos and Hoover, Amy K},
+  booktitle={Proceedings of the 2020 genetic and evolutionary computation conference},
+  pages={94--102},
+  year={2020}
+}
+
+@inproceedings{steckel2021illuminating,
+  title={Illuminating the space of beatable lode runner levels produced by various generative adversarial networks},
+  author={Steckel, Kirby and Schrum, Jacob},
+  booktitle={Proceedings of the genetic and evolutionary computation conference companion},
+  pages={111--112},
+  year={2021}
+}
+
+@article{Samvelyan2024RainbowTOA,
+  title={Rainbow Teaming: Open-Ended Generation of Diverse Adversarial Prompts},
+  author={Mikayel Samvelyan and S. Raparthy and Andrei Lupu and Eric Hambro and Aram H. Markosyan and Manish Bhatt and Yuning Mao and Minqi Jiang and Jack Parker-Holder and Jakob Foerster and Tim Rocktaschel and Roberta Raileanu},
+  journal={ArXiv},
+  year={2024},
+  volume={abs/2402.16822},
+  url={https://api.semanticscholar.org/CorpusId:268031888}
+}
+
+@article{wan2024quality,
+  title={Quality Diversity Imitation Learning},
+  author={Wan, Zhenglin and Yu, Xingrui and Bossens, David Mark and Lyu, Yueming and Guo, Qing and Fan, Flint Xiaofeng and Tsang, Ivor},
+  journal={arXiv preprint arXiv:2410.06151},
+  year={2024}
+}
+
+@article{samvelyan2024multi,
+  title={Multi-agent diagnostics for robustness via illuminated diversity},
+  author={Samvelyan, Mikayel and Paglieri, Davide and Jiang, Minqi and Parker-Holder, Jack and Rockt{\"a}schel, Tim},
+  journal={arXiv preprint arXiv:2401.13460},
+  year={2024}
+}
+
+
+@inproceedings{costa2020exploring,
+  title={Exploring the evolution of gans through quality diversity},
+  author={Costa, Victor and Lourenco, Nuno and Correia, Joao and Machado, Penousal},
+  booktitle={Proceedings of the 2020 genetic and evolutionary computation conference},
+  pages={297--305},
+  year={2020}
+}
+
+@inproceedings{dharna2024quality,
+  title={Quality-Diversity Self-Play: Open-Ended Strategy Innovation via Foundation Models},
+  author={Dharna, Aaron and Lu, Cong and Clune, Jeff},
+  booktitle={NeurIPS 2024 Workshop on Open-World Agents},
+  year={2024}
+}
+
+@article{kumar2024automating,
+  title={Automating the Search for Artificial Life with Foundation Models},
+  author={Kumar, Akarsh and Lu, Chris and Kirsch, Louis and Tang, Yujin and Stanley, Kenneth O and Isola, Phillip and Ha, David},
+  journal={arXiv preprint arXiv:2412.17799},
+  year={2024}
+}
+
+@inproceedings{chigot2022coevolution,
+  title={Coevolution of neural networks for agents and environments},
+  author={Chigot, Estelle and Wilson, Dennis G},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+  pages={2306--2309},
+  year={2022}
+}
+
+@inproceedings{faldoromni,
+  title={OMNI-EPIC: Open-endedness via Models of human Notions of Interestingness with Environments Programmed in Code},
+  author={Faldor, Maxence and Zhang, Jenny and Cully, Antoine and Clune, Jeff},
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2024}
+}
+
+@article{nadizar2025enhancing,
+  title={Enhancing adaptability in embodied agents: A multi-quality-diversity approach},
+  author={Nadizar, Giorgia and Medvet, Eric and Wilson, Dennis G},
+  journal={IEEE Transactions on Evolutionary Computation},
+  year={2025},
+  publisher={IEEE}
+}
+
+@article{kumar2026digital,
+  title={Digital Red Queen: Adversarial Program Evolution in Core War with LLMs},
+  author={Kumar, Akarsh and Bahlous-Boldi, Ryan and Sharma, Prafull and Isola, Phillip and Risi, Sebastian and Tang, Yujin and Ha, David},
+  journal={arXiv preprint arXiv:2601.03335},
+  year={2026}
+}
+
+@article{zhang2024survey,
+  title={A survey on self-play methods in reinforcement learning},
+  author={Zhang, Ruize and Xu, Zelai and Ma, Chengdong and Yu, Chao and Tu, Wei-Wei and Tang, Wenhao and Huang, Shiyu and Ye, Deheng and Ding, Wenbo and Yang, Yaodong and others},
+  journal={arXiv preprint arXiv:2408.01072},
+  year={2024}
+}
+
+@article{dang2025rainbowplus,
+  title={RainbowPlus: Enhancing Adversarial Prompt Generation via Evolutionary Quality-Diversity Search},
+  author={Dang, Quy-Anh and Ngo, Chris and Hy, Truong-Son},
+  journal={arXiv preprint arXiv:2504.15047},
+  year={2025}
+}
+
+@article{wang2025quality,
+  title={Quality-Diversity Red-Teaming: Automated Generation of High-Quality and Diverse Attackers for Large Language Models},
+  author={Wang, Ren-Jian and Xue, Ke and Qin, Zeyu and Li, Ziniu and Tang, Sheng and Li, Hao-Tian and Liu, Shengcai and Qian, Chao},
+  journal={arXiv preprint arXiv:2506.07121},
+  year={2025}
+}
+
+@inproceedings{nguyen2025diversifying,
+  title={Diversifying Adversarial Attacks on Text-to-image Generation},
+  author={Nguyen, Thai Huy and Luong, Ngoc Hoang},
+  booktitle={Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+  pages={315--318},
+  year={2025}
+}
+
+@article{pugh2016quality,
+  title={Quality diversity: A new frontier for evolutionary computation},
+  author={Pugh, Justin K and Soros, Lisa B and Stanley, Kenneth O},
+  journal={Frontiers in Robotics and AI},
+  volume={3},
+  pages={40},
+  year={2016},
+  publisher={Frontiers Media SA}
+}
+
+@article{zhao2023survey,
+  title={A survey of large language models},
+  author={Zhao, Wayne Xin and Zhou, Kun and Li, Junyi and Tang, Tianyi and Wang, Xiaolei and Hou, Yupeng and Min, Yingqian and Zhang, Beichen and Zhang, Junjie and Dong, Zican and others},
+  journal={arXiv preprint arXiv:2303.18223},
+  volume={1},
+  number={2},
+  year={2023}
+}
+
+@article{silver2017mastering,
+  title={Mastering the game of go without human knowledge},
+  author={Silver, David and Schrittwieser, Julian and Simonyan, Karen and Antonoglou, Ioannis and Huang, Aja and Guez, Arthur and Hubert, Thomas and Baker, Lucas and Lai, Matthew and Bolton, Adrian and others},
+  journal={nature},
+  volume={550},
+  number={7676},
+  pages={354--359},
+  year={2017},
+  publisher={Nature Publishing Group UK London}
+}
+
+@article{berner2019dota,
+  title={Dota 2 with large scale deep reinforcement learning},
+  author={Berner, Christopher and Brockman, Greg and Chan, Brooke and Cheung, Vicki and Debiak, Przemyslaw and Dennison, Christy and Farhi, David and Fischer, Quirin and Hashme, Shariq and Hesse, Chris and others},
+  journal={arXiv preprint arXiv:1912.06680},
+  year={2019}
+}
+
+@article{bedau2000open,
+  title={Open problems in artificial life},
+  author={Bedau, Mark A and McCaskill, John S and Packard, Norman H and Rasmussen, Steen and Adami, Chris and Green, David G and Ikegami, Takashi and Kaneko, Kunihiko and Ray, Thomas S},
+  journal={Artificial life},
+  volume={6},
+  number={4},
+  pages={363--376},
+  year={2000},
+  publisher={MIT Press}
+}
+
+@misc{dorin2024artificial,
+  title={What Is Artificial Life Today, and Where Should It Go?},
+  author={Dorin, Alan and Stepney, Susan},
+  journal={Artificial Life},
+  volume={30},
+  number={1},
+  pages={1--15},
+  year={2024},
+  publisher={MIT Press One Broadway, 12th Floor, Cambridge, Massachusetts 02142, USA~…}
+}
+
+@article{moran2019evolving,
+  title={Evolving complexity in prediction games},
+  author={Moran, Nick and Pollack, Jordan},
+  journal={Artificial Life},
+  volume={25},
+  number={1},
+  pages={74--91},
+  year={2019},
+  publisher={MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info~…}
+}
+
+@article{harrington2019escalation,
+  title={Escalation of memory length in finite populations},
+  author={Harrington, Kyle and Pollack, Jordan},
+  journal={Artificial life},
+  volume={25},
+  number={1},
+  pages={22--32},
+  year={2019},
+  publisher={MIT Press}
+}
+
+@article{cully2015robots,
+  title={Robots that can adapt like animals},
+  author={Cully, Antoine and Clune, Jeff and Tarapore, Danesh and Mouret, Jean-Baptiste},
+  journal={Nature},
+  volume={521},
+  number={7553},
+  pages={503--507},
+  year={2015},
+  publisher={Nature Publishing Group UK London}
+}
+
+@article{jiang2022artificial,
+  title={An artificial intelligence enabled chemical synthesis robot for exploration and optimization of nanomaterials},
+  author={Jiang, Yibin and Salley, Daniel and Sharma, Abhishek and Keenan, Graham and Mullin, Margaret and Cronin, Leroy},
+  journal={Science advances},
+  volume={8},
+  number={40},
+  pages={eabo2626},
+  year={2022},
+  publisher={American Association for the Advancement of Science}
+}
+
+@inproceedings{gravina2019procedural,
+  title={Procedural content generation through quality diversity},
+  author={Gravina, Daniele and Khalifa, Ahmed and Liapis, Antonios and Togelius, Julian and Yannakakis, Georgios N},
+  booktitle={2019 IEEE Conference on Games (CoG)},
+  pages={1--8},
+  year={2019},
+  organization={IEEE}
+}
+
+@article{brevault2024bayesian,
+  title={Bayesian Quality-Diversity approaches for constrained optimization problems with mixed continuous, discrete and categorical variables},
+  author={Brevault, Loic and Balesdent, Mathieu},
+  journal={Engineering Applications of Artificial Intelligence},
+  volume={133},
+  pages={108118},
+  year={2024},
+  publisher={Elsevier}
+}
+
+@article{ganguli2022red,
+  title={Red teaming language models to reduce harms: Methods, scaling behaviors, and lessons learned},
+  author={Ganguli, Deep and Lovitt, Liane and Kernion, Jackson and Askell, Amanda and Bai, Yuntao and Kadavath, Saurav and Mann, Ben and Perez, Ethan and Schiefer, Nicholas and Ndousse, Kamal and others},
+  journal={arXiv preprint arXiv:2209.07858},
+  year={2022}
+}
+
+@book{elo1978rating,
+  address = {New York},
+  author = {Elo, Arpad E.},
+  isbn = {0668047216 9780668047210},
+  keywords = {cati},
+  publisher = {Arco Pub.},
+  refid = {4504131},
+  title = {The Rating of Chessplayers, Past and Present},
+  year = 1978
+}
+
+@book{osborne2004introduction,
+  title={An introduction to game theory},
+  author={Osborne, Martin J and others},
+  volume={3},
+  number={3},
+  year={2004},
+  publisher={Springer}
+}
+
 """
 
 import re
@@ -757,9 +1202,12 @@ def parse_bib(bib_text):
         r'@(\w+)\s*\{\s*([^,\s]+)\s*,(.+?)\n\}',
         re.DOTALL
     )
+    labels = set()
     for m in pattern.finditer(bib_text):
         etype, label, body = m.group(1), m.group(2), m.group(3)
-        results.append(format_entry(label, etype, body))
+        if label not in labels:
+            labels.add(label)
+            results.append(format_entry(label, etype, body))
     return results
 
 

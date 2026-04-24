@@ -71,10 +71,26 @@
             line-height: 1.5;
         }
 
-        .container { 
+        /* ── Main Content Justification ── */
+        .container, .post-body { 
             max-width: var(--text-width); 
             margin: 0 auto; 
             padding: 0 20px; 
+            
+            /* Justify the text */
+            text-align: justify;
+            
+            /* Optional: Improves the look of justified text on narrow screens */
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+        }
+
+        /* Ensure headers remain left-aligned for better readability */
+        .container h1, 
+        .container h2, 
+        .container h3 {
+            text-align: left;
         }
         
         header { text-align: center; padding: 4rem 0 3rem; }
@@ -155,6 +171,7 @@
             color: #007bff;
             cursor: help;
             position: relative;
+            padding: 0 1px; /* Makes the number slightly easier to hover */
             font-size: 0.9em;
             vertical-align: super;
         }
@@ -176,6 +193,47 @@
             font-family: 'Inter', sans-serif;
             font-style: normal;
             text-align: left;
+        }
+
+        /* The entire [1, 2] block */
+        .cite-ref-group {
+            color: #007bff;          /* Blue brackets */
+            font-size: 0.85em;       /* Slightly smaller */
+            vertical-align: baseline;   /* Above the text line */
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: default;
+        }
+
+        /* The numbers inside the brackets */
+        .cite-ref-num {
+            color: #007bff;          /* Blue numbers */
+            cursor: help;            /* Show help cursor on hover */
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .cite-ref-num:hover {
+            color: #0056b3;          /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        /* Tooltip (remains the same) */
+        .cite-ref-num:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 180%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 280px;
+            line-height: 1.4;
+            z-index: 100;
+            font-weight: 400;
         }
 
         /* --- References List --- */

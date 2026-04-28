@@ -161,32 +161,54 @@ This blog post includes two publications: [^anne2026game] (the extended version 
 
 GAME finds diverse, high-quality solutions for all those problems, with higher quality than one-sided QD baselines. 
 
-## The challenge of adversarial quality diversity
-::figure{src="assets/challenge.png" caption="**The challenge** of adversarial quality diversity is that when evaluating two opposing solutions, it is not trivial to know if the high fitness of one solution is due to it being of high quality or the opposing solution being of poor quality. As in most interesting domains, it is often easier to sample a poor solution; a traditional QD algorithm would select solutions that performed well against poor solutions."}
+## The challenges of adversarial quality diversity
+::figure{src="assets/challenge.png"}
 
-## Methods: Generational Adversarial MAP-Elites 
-::video{src="assets/GAME_overview.mp4" caption="**GAME** is coevolutionnary QD algorithm for adversarial problems. It alternates the illumination by sequentially executing MTBM-ME [^anne2023multi] against a fixed set of opposing solutions, called tasks, changing side at each generation."}
+The main challenge of adversarial quality diversity is that when evaluating two opposing solutions, it is not trivial to know if the high fitness of one solution is due to it being of high quality or the opposing solution being of poor quality. As in most interesting domains, it is often easier to sample a poor solution; a traditional QD algorithm would select solutions that performed well against poor solutions. A secodn challenge is that the behavior of one solution is also dependant on the opposing solution, for example, a defensive strategie in a battle game will only react if the opposing units move close enough. 
 
-GAME overview:
+The current solution to solve this challenges is to freeze the one side of the adversarial problem, but it is not satisfying as (1) the solutions will overfit the fixed set of opponents, (2) the experimentater needs to already know good solutions, and (3) this prevent the arms-race dynamics often present in adversarial problems. 
 
-- **(a)** Initialize a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. 
-- **(b)** Execute MTMB-ME [^anne2023multi] by alternating side at each generation. For the rest, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.
-- **(c)** At each iteration, pick one <span style="color: #2070b4;">Blue</span> task at random, pick two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and apply a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. 
-- **(d)** Evaluate the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task. Gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP [^radford2021learning]) and concatenates the resulting embeddings to form the behavior descriptor B.  
-- **(e)** Update the archive if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  
-- **(f)** After the execution of MTMB-ME [^anne2023multi] for a given budget of evaluations, GAME selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks. Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of the second paper [^anne2026tournament], which is presented below. 
-- **(g)** To evaluate the current generation, GAME performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks.
-- **(h)** Bootstrap the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. 
+## Our method: Generational Adversarial MAP-Elites (GAME)
+::video{src="assets/GAME_overview.mp4"}
+
+Our solution is to coevolve both sides in a sequence of generations. At each generation, GAME selects a set of solutions for one side that will be fixed for this generation and will serves as opponents, also called tasks, and leverage a multi-task QD algorithm, MTBM-ME [^anne2023multi], to evolve for each task a set of diverse solutions that performs well against the corresponding the opponent. GAME then switches sides for the next generation and selects solutions from the previous generation to serve as fixed opponents for the new generation.  
+
+More formally, GAME:
+
+- **(a)** Initializes a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. 
+- **(b)** Executes MTMB-ME [^anne2023multi] by alternating side at each generation. (For the reminder, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.)
+- **(c)** At each iteration, picks one <span style="color: #2070b4;">Blue</span> task at random, picks two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and applies a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. 
+- **(d)** Evaluates the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task to gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. (A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP [^radford2021learning]) and concatenates the resulting embeddings to form the behavior descriptor B.)  
+- **(e)** Updates the archive if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  
+- **(f)** After the execution of MTMB-ME [^anne2023multi] for a given budget of evaluations, selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks. (Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of the second paper [^anne2026tournament], which is presented below.) 
+- **(g)** Performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks to evaluates the current generation.
+- **(h)** Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. 
+
+### Task selection mechanism 
+
+
 
 ## Experiments
 
-::video{src="assets/Parabellum_pca.mp4" caption="**Parabellum** "}
+### Battle Game: Parabellum
 
-::video{src="assets/Wrestling_pca.mp4" caption="**Wrestling** "}
+::video{src="assets/Parabellum_pca.mp4"}
 
-## Related Works
+Parabellum 
 
-## Conclusion
+### Soft-robot: Wrestling
+
+::video{src="assets/Wrestling_pca.mp4"}
+
+### Pong
+
+### Cat-and-mouse
+
+### Pursuers-and-evaders
+
+## What Now?
+
+### 
 
 
 ## Appendix 
@@ -195,19 +217,23 @@ GAME overview:
 Funded by the armasuisse S+T project F00-007.
 
 ### BibTeX citations
-
+Main citation for GAME:
 ```bibtex
-@inproceedings{anne2025generational,
-  title={Generational Adversarial MAP-Elites for Multi-Agent Game Illumination},
-  author={Anne, Timoth{\'e}e and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian},
-  booktitle={Artificial Life Conference Proceedings 37},
-  volume={2025},
-  number={1},
-  pages={31},
-  year={2025},
-  organization={MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info}
+@ARTICLE{11494045,
+  author={Anne, Timothée and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian},
+  journal={IEEE Transactions on Evolutionary Computation}, 
+  title={Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites}, 
+  year={2026},
+  volume={},
+  number={},
+  pages={1-1},
+  keywords={Video games; Quality-Diversity; Adversarial Coevolution},
+  doi={10.1109/TEVC.2026.3686956}
 }
+```
 
+Second citation for the study of the task selection mechanism and the evaluations on Pong, Cat-and-mouse, and Pursuers-and-evaders:
+```bibtex
 @misc{anne2026tournamentinformedadversarialquality,
       title={Tournament Informed Adversarial Quality Diversity}, 
       author={Timothée Anne and Noah Syrkis and Meriem Elhosni and Florian Turati and Alexandre Manai and Franck Legendre and Alain Jaquier and Sebastian Risi},
@@ -216,6 +242,7 @@ Funded by the armasuisse S+T project F00-007.
       archivePrefix={arXiv},
       primaryClass={cs.NE},
       url={https://arxiv.org/abs/2601.19562}, 
+      note={Accepted at GECCO '26, San José, Costa Rica}
 }
 ```
 

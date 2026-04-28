@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites</title>
@@ -377,54 +390,64 @@
 <li>six metrics of quality and diversity for adversarial problems.</li>
 </ul>
 <p>GAME finds diverse, high-quality solutions for all those problems, with higher quality than one-sided QD baselines. </p>
-<h2 id="the-challenge-of-adversarial-quality-diversity">The challenge of adversarial quality diversity</h2>
+<h2 id="the-challenges-of-adversarial-quality-diversity">The challenges of adversarial quality diversity</h2>
 <figure class="post-figure">
   <img src="assets/challenge.png" alt="figure" loading="lazy">
-  <div class="figure-caption"><strong>The challenge</strong> of adversarial quality diversity is that when evaluating two opposing solutions, it is not trivial to know if the high fitness of one solution is due to it being of high quality or the opposing solution being of poor quality. As in most interesting domains, it is often easier to sample a poor solution; a traditional QD algorithm would select solutions that performed well against poor solutions.</div>
 </figure>
-<h2 id="methods-generational-adversarial-map-elites">Methods: Generational Adversarial MAP-Elites</h2>
+<p>The main challenge of adversarial quality diversity is that when evaluating two opposing solutions, it is not trivial to know if the high fitness of one solution is due to it being of high quality or the opposing solution being of poor quality. As in most interesting domains, it is often easier to sample a poor solution; a traditional QD algorithm would select solutions that performed well against poor solutions. A secodn challenge is that the behavior of one solution is also dependant on the opposing solution, for example, a defensive strategie in a battle game will only react if the opposing units move close enough. </p>
+<p>The current solution to solve this challenges is to freeze the one side of the adversarial problem, but it is not satisfying as (1) the solutions will overfit the fixed set of opponents, (2) the experimentater needs to already know good solutions, and (3) this prevent the arms-race dynamics often present in adversarial problems. </p>
+<h2 id="our-method-generational-adversarial-map-elites-game">Our method: Generational Adversarial MAP-Elites (GAME)</h2>
 <figure class="post-figure">
   <video autoplay loop muted playsinline src="assets/GAME_overview.mp4"></video>
-  <div class="figure-caption"><strong>GAME</strong> is coevolutionnary QD algorithm for adversarial problems. It alternates the illumination by sequentially executing MTBM-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> against a fixed set of opposing solutions, called tasks, changing side at each generation.</div>
 </figure>
-<p>GAME overview:</p>
+<p>Our solution is to coevolve both sides in a sequence of generations. At each generation, GAME selects a set of solutions for one side that will be fixed for this generation and will serves as opponents, also called tasks, and leverage a multi-task QD algorithm, MTBM-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span>, to evolve for each task a set of diverse solutions that performs well against the corresponding the opponent. GAME then switches sides for the next generation and selects solutions from the previous generation to serve as fixed opponents for the new generation.  </p>
+<p>More formally, GAME:</p>
 <ul>
-<li><strong>(a)</strong> Initialize a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. </li>
-<li><strong>(b)</strong> Execute MTMB-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> by alternating side at each generation. For the rest, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.</li>
-<li><strong>(c)</strong> At each iteration, pick one <span style="color: #2070b4;">Blue</span> task at random, pick two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and apply a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. </li>
-<li><strong>(d)</strong> Evaluate the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task. Gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, and et al., Learning transferable visual models from natural language supervision, in International conference on machine learning, pp. 8748–8763, 2021.">22</span>]</span>) and concatenates the resulting embeddings to form the behavior descriptor B.  </li>
-<li><strong>(e)</strong> Update the archive if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  </li>
-<li><strong>(f)</strong> After the execution of MTMB-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> for a given budget of evaluations, GAME selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks. Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of the second paper <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>, which is presented below. </li>
-<li><strong>(g)</strong> To evaluate the current generation, GAME performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks.</li>
-<li><strong>(h)</strong> Bootstrap the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. </li>
+<li><strong>(a)</strong> Initializes a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. </li>
+<li><strong>(b)</strong> Executes MTMB-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> by alternating side at each generation. (For the reminder, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.)</li>
+<li><strong>(c)</strong> At each iteration, picks one <span style="color: #2070b4;">Blue</span> task at random, picks two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and applies a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. </li>
+<li><strong>(d)</strong> Evaluates the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task to gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. (A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, and et al., Learning transferable visual models from natural language supervision, in International conference on machine learning, pp. 8748–8763, 2021.">22</span>]</span>) and concatenates the resulting embeddings to form the behavior descriptor B.)  </li>
+<li><strong>(e)</strong> Updates the archive if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  </li>
+<li><strong>(f)</strong> After the execution of MTMB-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> for a given budget of evaluations, selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks. (Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of the second paper <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>, which is presented below.) </li>
+<li><strong>(g)</strong> Performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks to evaluates the current generation.</li>
+<li><strong>(h)</strong> Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. </li>
 </ul>
+<h3 id="task-selection-mechanism">Task selection mechanism</h3>
 <h2 id="experiments">Experiments</h2>
+<h3 id="battle-game-parabellum">Battle Game: Parabellum</h3>
 <figure class="post-figure">
   <video autoplay loop muted playsinline src="assets/Parabellum_pca.mp4"></video>
-  <div class="figure-caption"><strong>Parabellum</strong> </div>
 </figure>
+<p>Parabellum </p>
+<h3 id="soft-robot-wrestling">Soft-robot: Wrestling</h3>
 <figure class="post-figure">
   <video autoplay loop muted playsinline src="assets/Wrestling_pca.mp4"></video>
-  <div class="figure-caption"><strong>Wrestling</strong> </div>
 </figure>
-<h2 id="related-works">Related Works</h2>
-<h2 id="conclusion">Conclusion</h2>
+<h3 id="pong">Pong</h3>
+<h3 id="cat-and-mouse">Cat-and-mouse</h3>
+<h3 id="pursuers-and-evaders">Pursuers-and-evaders</h3>
+<h2 id="what-now">What Now?</h2>
+<h3 id="_1"></h3>
 <h2 id="appendix">Appendix</h2>
 <h3 id="acknowledgements">Acknowledgements</h3>
 <p>Funded by the armasuisse S+T project F00-007.</p>
 <h3 id="bibtex-citations">BibTeX citations</h3>
-<div class="codehilite"><pre><span></span><code><span class="nc">@inproceedings</span><span class="p">{</span><span class="nl">anne2025generational</span><span class="p">,</span>
-<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{Generational Adversarial MAP-Elites for Multi-Agent Game Illumination}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Anne, Timoth{\&#39;e}e and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">booktitle</span><span class="p">=</span><span class="s">{Artificial Life Conference Proceedings 37}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{1}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{31}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
-<span class="w">  </span><span class="na">organization</span><span class="p">=</span><span class="s">{MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info}</span>
+<p>Main citation for GAME:</p>
+<div class="codehilite"><pre><span></span><code><span class="nc">@ARTICLE</span><span class="p">{</span><span class="nl">11494045</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Anne, Timothée and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{IEEE Transactions on Evolutionary Computation}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{1-1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">keywords</span><span class="p">=</span><span class="s">{Video games; Quality-Diversity; Adversarial Coevolution}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="p">=</span><span class="s">{10.1109/TEVC.2026.3686956}</span>
 <span class="p">}</span>
+</code></pre></div>
 
-<span class="nc">@misc</span><span class="p">{</span><span class="nl">anne2026tournamentinformedadversarialquality</span><span class="p">,</span>
+<p>Second citation for the study of the task selection mechanism and the evaluations on Pong, Cat-and-mouse, and Pursuers-and-evaders:</p>
+<div class="codehilite"><pre><span></span><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">anne2026tournamentinformedadversarialquality</span><span class="p">,</span>
 <span class="w">      </span><span class="na">title</span><span class="p">=</span><span class="s">{Tournament Informed Adversarial Quality Diversity}</span><span class="p">,</span><span class="w"> </span>
 <span class="w">      </span><span class="na">author</span><span class="p">=</span><span class="s">{Timothée Anne and Noah Syrkis and Meriem Elhosni and Florian Turati and Alexandre Manai and Franck Legendre and Alain Jaquier and Sebastian Risi}</span><span class="p">,</span>
 <span class="w">      </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
@@ -432,6 +455,7 @@
 <span class="w">      </span><span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
 <span class="w">      </span><span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.NE}</span><span class="p">,</span>
 <span class="w">      </span><span class="na">url</span><span class="p">=</span><span class="s">{https://arxiv.org/abs/2601.19562}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="na">note</span><span class="p">=</span><span class="s">{Accepted at GECCO &#39;26, San José, Costa Rica}</span>
 <span class="p">}</span>
 </code></pre></div>
 

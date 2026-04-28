@@ -74,7 +74,7 @@
 
         /* Main caption below the whole strip */
         .teaser-main-caption {
-            max-width: var(--text-width); /* Matches your article width */
+            max-width: 100%; /* Matches your article width */
             margin: 1.5rem auto 0;
             padding: 0 20px;
             text-align: center;
@@ -106,8 +106,14 @@
             text-align: left;
         }
         
-        header { text-align: center; padding: 4rem 0 3rem; }
-        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; }
+        header { text-align: center; padding: 4rem 0 3rem; 
+                margin-bottom: 3rem;
+                max-width: var(--text-width);
+                margin-left: auto;
+                margin-right: auto; 
+                align-items: center  !important; /* Centers children horizontally in a flex column */
+        }
+        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; text-align: center  !important; justify-content: center;}
         
         .date { font-family: 'Inter', sans-serif; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
         

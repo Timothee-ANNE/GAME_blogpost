@@ -1,5 +1,5 @@
 ---
-title: "Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites"
+title: "Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites"
 references:
   pugh2016quality: "J. K. Pugh, L. B. Soros, and K. O. Stanley, Quality diversity: A new frontier for evolutionary computation, Frontiers in Robotics and AI, vol. 3, pp. 40, 2016."
   gravina2019procedural: "D. Gravina, A. Khalifa, A. Liapis, J. Togelius, and G. N. Yannakakis, Procedural content generation through quality diversity, in 2019 IEEE Conference on Games (CoG), pp. 1–8, 2019."
@@ -132,13 +132,13 @@ teaser_items: |
   </div>
   <div class="teaser-item">
     <video autoplay loop muted playsinline src="assets/CatAndMouse_teaser.mp4"></video>
-    <div class="teaser-label">(d) Cat & Mouse</div>
+    <div class="teaser-label">(d) Cat-and-mouse</div>
   </div>
   <div class="teaser-item">
     <video autoplay loop muted playsinline src="assets/PursuersAndEvaders_teaser.mp4"></video>
-    <div class="teaser-label">(e) Pursuers & Evaders</div>
+    <div class="teaser-label">(e) Pursuers-and-evaders</div>
   </div>
-teaser_caption: "<b>Figure 1.</b> Examples of adversarial behaviors across five environments."
+teaser_caption: "<b>Examples of adversarial behaviors across five environments.</b> Our method, GAME, was able to find a diversity of solutions in five adversarial domains: (a) Parabellum, a battle game with many units, (b) Wrestling, a soft-robot morphology competition, (c) Pong, a classic symmetrical and adversarial game, (d) Cat-and-mouse, an asymetrical game where a fast Cat wants to catch a agile mouse, and (e) Pursuers-and-evaders, a multi-agent and asymetrical game in an enclosed arena."
 abstract: "Quality-Diversity (QD) algorithms seek to discover diverse, high-performing solutions across a behavior space, in contrast to conventional optimization methods that target a single optimum. Adversarial problems present unique challenges for QD approaches, as the competing nature of opposing sides creates interdependencies that complicate the evolution process. Existing QD methods applied to such scenarios typically fix one side, constraining the open-endedness. We present Generational Adversarial MAP-Elites (GAME), a coevolutionary QD algorithm that evolves both sides by alternating which side is evolved at each generation. By integrating a vision embedding model (VEM), our approach eliminates the need for domain-specific behavior descriptors and instead operates on video. We validate GAME across three distinct adversarial domains: a multi-agent battle game, a soft-robot wrestling environment, and a deck building game. We validate that all its components are necessary, that the VEM is effective in two different domains, and that GAME finds better solutions than one-sided QD baselines. Our experiments reveal several evolutionary phenomena, including arms race-like dynamics, enhanced novelty through generational extinction, and the preservation of neutral mutations as crucial stepping stones toward the highest performance. While GAME successfully illuminates all three adversarial problems, its capacity for truly open-ended discovery remains constrained by the nature of the search spaces used in this paper. These findings show GAME's broad applicability and highlight opportunities for future research into open-ended adversarial coevolution."
 ---
 
@@ -185,7 +185,7 @@ More formally, GAME:
 - **(h)** Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. 
 
 ### Task selection mechanism 
-
+::figure{src="assets/task_selection.png"}
 
 
 ## Experiments
@@ -208,7 +208,7 @@ Parabellum
 
 ## What Now?
 
-### 
+### Adversarial QD, what for?
 
 
 ## Appendix 

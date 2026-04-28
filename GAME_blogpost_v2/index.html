@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites</title>
+    <title>Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites</title>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
@@ -74,7 +74,7 @@
 
         /* Main caption below the whole strip */
         .teaser-main-caption {
-            max-width: var(--text-width); /* Matches your article width */
+            max-width: 100%; /* Matches your article width */
             margin: 1.5rem auto 0;
             padding: 0 20px;
             text-align: center;
@@ -106,8 +106,14 @@
             text-align: left;
         }
         
-        header { text-align: center; padding: 4rem 0 3rem; }
-        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; }
+        header { text-align: center; padding: 4rem 0 3rem; 
+                margin-bottom: 3rem;
+                max-width: var(--text-width);
+                margin-left: auto;
+                margin-right: auto; 
+                align-items: center  !important; /* Centers children horizontally in a flex column */
+        }
+        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; text-align: center  !important; justify-content: center;}
         
         .date { font-family: 'Inter', sans-serif; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
         
@@ -343,23 +349,23 @@
 </div>
 <div class="teaser-item">
   <video autoplay loop muted playsinline src="assets/CatAndMouse_teaser.mp4"></video>
-  <div class="teaser-label">(d) Cat & Mouse</div>
+  <div class="teaser-label">(d) Cat-and-mouse</div>
 </div>
 <div class="teaser-item">
   <video autoplay loop muted playsinline src="assets/PursuersAndEvaders_teaser.mp4"></video>
-  <div class="teaser-label">(e) Pursuers & Evaders</div>
+  <div class="teaser-label">(e) Pursuers-and-evaders</div>
 </div>
 
         </div>
         <div class="teaser-main-caption">
-            <b>Figure 1.</b> Examples of adversarial behaviors across five environments.
+            <b>Examples of adversarial behaviors across five environments.</b> Our method, GAME, was able to find a diversity of solutions in five adversarial domains: (a) Parabellum, a battle game with many units, (b) Wrestling, a soft-robot morphology competition, (c) Pong, a classic symmetrical and adversarial game, (d) Cat-and-mouse, an asymetrical game where a fast Cat wants to catch a agile mouse, and (e) Pursuers-and-evaders, a multi-agent and asymetrical game in an enclosed arena.
         </div>
     </div>
 
     <div class="container">
         <header>
             <div class="date">April 23, 2026</div>
-            <h1>Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites</h1>
+            <h1>Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites</h1>
             <div class="authors"><div class="author"><strong>Timothée Anne</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Noah Syrkis</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Meriem Elhosni</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Florian Turati</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alexandre Manai</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Franck Legendre</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alain Jaquier</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Sebastian Risi</strong><span class="affil">IT University of Copenhagen</span></div></div>
             <div class="links"><a href="https://arxiv.org/pdf/2505.06617v3" class="btn">PDF 1</a><a href="https://github.com/Timothee-ANNE/GAME" class="btn">Code 1</a><a href="https://arxiv.org/pdf/2601.19562" class="btn">PDF 2</a><a href="https://github.com/Timothee-ANNE/GAME_tournament_informed" class="btn">Code 2</a></div>
         </header>
@@ -413,6 +419,9 @@
 <li><strong>(h)</strong> Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. </li>
 </ul>
 <h3 id="task-selection-mechanism">Task selection mechanism</h3>
+<figure class="post-figure">
+  <img src="assets/task_selection.png" alt="figure" loading="lazy">
+</figure>
 <h2 id="experiments">Experiments</h2>
 <h3 id="battle-game-parabellum">Battle Game: Parabellum</h3>
 <figure class="post-figure">
@@ -427,7 +436,7 @@
 <h3 id="cat-and-mouse">Cat-and-mouse</h3>
 <h3 id="pursuers-and-evaders">Pursuers-and-evaders</h3>
 <h2 id="what-now">What Now?</h2>
-<h3 id="_1"></h3>
+<h3 id="adversarial-qd-what-for">Adversarial QD, what for?</h3>
 <h2 id="appendix">Appendix</h2>
 <h3 id="acknowledgements">Acknowledgements</h3>
 <p>Funded by the armasuisse S+T project F00-007.</p>
@@ -463,7 +472,7 @@
         </article>
         
         <footer style="padding: 5rem 0; text-align: center; color: #999; font-size: 0.8rem; font-family: 'Inter', sans-serif;">
-            © 2026 · Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites
+            © 2026 · Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites
         </footer>
     </div>
 

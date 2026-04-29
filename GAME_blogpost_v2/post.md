@@ -108,15 +108,6 @@ authors:
     affiliation: "armasuisse Science+Technology"
   - name: "Sebastian Risi"
     affiliation: "IT University of Copenhagen"
-links:
-  - label: "PDF 1"
-    url: "https://arxiv.org/pdf/2505.06617v3"
-  - label: "Code 1"
-    url: "https://github.com/Timothee-ANNE/GAME"
-  - label: "PDF 2"
-    url: "https://arxiv.org/pdf/2601.19562"
-  - label: "Code 2"
-    url : "https://github.com/Timothee-ANNE/GAME_tournament_informed"
 teaser_items: |
   <div class="teaser-item">
     <video autoplay loop muted playsinline src="assets/parabellum_teaser.mp4"></video>
@@ -139,7 +130,6 @@ teaser_items: |
     <div class="teaser-label">(e) Pursuers-and-evaders</div>
   </div>
 teaser_caption: "<b>Examples of adversarial behaviors across five environments.</b> Our method, GAME, was able to find a diversity of solutions in five adversarial domains: (a) Parabellum, a battle game with many units, (b) Wrestling, a soft-robot morphology competition, (c) Pong, a classic symmetrical and adversarial game, (d) Cat-and-mouse, an asymetrical game where a fast Cat wants to catch a agile mouse, and (e) Pursuers-and-evaders, a multi-agent and asymetrical game in an enclosed arena."
-abstract: "Quality-Diversity (QD) algorithms seek to discover diverse, high-performing solutions across a behavior space, in contrast to conventional optimization methods that target a single optimum. Adversarial problems present unique challenges for QD approaches, as the competing nature of opposing sides creates interdependencies that complicate the evolution process. Existing QD methods applied to such scenarios typically fix one side, constraining the open-endedness. We present Generational Adversarial MAP-Elites (GAME), a coevolutionary QD algorithm that evolves both sides by alternating which side is evolved at each generation. By integrating a vision embedding model (VEM), our approach eliminates the need for domain-specific behavior descriptors and instead operates on video. We validate GAME across three distinct adversarial domains: a multi-agent battle game, a soft-robot wrestling environment, and a deck building game. We validate that all its components are necessary, that the VEM is effective in two different domains, and that GAME finds better solutions than one-sided QD baselines. Our experiments reveal several evolutionary phenomena, including arms race-like dynamics, enhanced novelty through generational extinction, and the preservation of neutral mutations as crucial stepping stones toward the highest performance. While GAME successfully illuminates all three adversarial problems, its capacity for truly open-ended discovery remains constrained by the nature of the search spaces used in this paper. These findings show GAME's broad applicability and highlight opportunities for future research into open-ended adversarial coevolution."
 ---
 
 ::video{src="assets/GAME_simple_overview_animation.mp4" caption="**GAME** is a coevolutionary QD algorithm that illuminates adversarial problems by alternating the execution of MTMB-ME [^anne2023multi] on a set of tasks (i.e., fixed solutions from the opposing side) to encourage arms race dynamics. For example, in this illustration, the blue letters represent strategies a mouse uses to avoid a cat, and the red letters represent strategies a cat uses to catch a mouse"}
@@ -176,17 +166,28 @@ Our solution is to coevolve both sides in a sequence of generations. At each gen
 More formally, GAME:
 
 - **(a)** Initializes a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. 
-- **(b)** Executes MTMB-ME [^anne2023multi] by alternating side at each generation. (For the reminder, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.)
-- **(c)** At each iteration, picks one <span style="color: #2070b4;">Blue</span> task at random, picks two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and applies a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. 
-- **(d)** Evaluates the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task to gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. (A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP [^radford2021learning]) and concatenates the resulting embeddings to form the behavior descriptor B.)  
-- **(e)** Updates the archive if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  
+- **(b)** Executes MTMB-ME [^anne2023multi] by alternating side at each generation. (For the explanations, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.)
+    - **(c)** At each iteration, picks one <span style="color: #2070b4;">Blue</span> task at random, picks two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and applies a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. 
+    - **(d)** Evaluates the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task to gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. (A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM (CLIP [^radford2021learning]) and concatenates the resulting embeddings to form the behavior descriptor B.)  
+    - **(e)** Updates the archive: if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  
 - **(f)** After the execution of MTMB-ME [^anne2023multi] for a given budget of evaluations, selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks. (Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of the second paper [^anne2026tournament], which is presented below.) 
 - **(g)** Performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks to evaluates the current generation.
-- **(h)** Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament. 
+- **(h)** Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament.
+- go back to step **(b)**. 
 
 ### Task selection mechanism 
 ::figure{src="assets/task_selection.png"}
 
+The task selection mechanism drives the coevolutionary process and should select tasks that present greater diversity of challenges at each generation to broaden the illumination. The original GAME [^anne2026game] uses a behavioral criterion to select tasks; we argue that by disregarding the problem's adversarial aspect, it fails to provide the greatest illumination.
+
+In our second work [^anne2026tournament], we propose two new task selection methods, **Ranking** and **Pareto**, that leverage a tournament between the current elites and tasks, that we compare against the original method **Behavior** and a random baseline **Random**. 
+
+- **Behavior**: (a.1) aggregates all elites using behavior collected from MTMB-ME's evaluations, (a.2) recomputes an archive as if they were from the same behavior space using $N_{task}$ cells, and (a.3) selects the elite of each cell, ignoring that they were evaluated on different tasks.
+- **Random**: simply selects the tasks as a random subsets of the elites. 
+- **Ranking**: It, first, (b.1) performs a tournament between all the elites and the previous tasks (size $N_{task}^2\cdot N_{cell}$) to (b.2) collect the fitness vector. Then it (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites in $N_{task}$ cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with \textbf{Behavior}. Finally, for the bootstrapping, only the evaluations from the selected elites are used, meaning that most of the evaluations of the tournament (i.e., $N_{task}^2\cdot (N_{cell}-1)$) are not repurposed.
+- **Pareto**: (d.1) uses  NSGA-III [^deb2013evolutionary] to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  
+
+We compare different metrics of adversarial quality and diversity and concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that **Ranking** is slightly but signficantly better than **Pareto**. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. 
 
 ## Experiments
 
@@ -217,7 +218,7 @@ Parabellum
 Funded by the armasuisse S+T project F00-007.
 
 ### BibTeX citations
-Main citation for GAME:
+Main paper for GAME: [PDF](https://arxiv.org/pdf/2505.06617v3), [Repo](https://github.com/Timothee-ANNE/GAME), and citation:
 ```bibtex
 @ARTICLE{11494045,
   author={Anne, Timothée and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian},
@@ -232,7 +233,7 @@ Main citation for GAME:
 }
 ```
 
-Second citation for the study of the task selection mechanism and the evaluations on Pong, Cat-and-mouse, and Pursuers-and-evaders:
+Second citation for the study of the task selection mechanism and the evaluations on Pong, Cat-and-mouse, and Pursuers-and-evaders: [PDF](https://arxiv.org/pdf/2601.19562), [Repo](https://github.com/Timothee-ANNE/GAME_tournament_informed), and citation:
 ```bibtex
 @misc{anne2026tournamentinformedadversarialquality,
       title={Tournament Informed Adversarial Quality Diversity}, 

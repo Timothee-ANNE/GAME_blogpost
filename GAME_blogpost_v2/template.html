@@ -99,6 +99,24 @@
             -ms-hyphens: auto;
         }
 
+        /* ── Main Content Lists (Fixed for Nesting) ── */
+        .container ul, .container ol {
+            margin: 1rem 0;
+            padding-left: 2rem; /* Indent for the first level */
+            text-align: left;    /* Keep lists left-aligned */
+        }
+
+        /* This is the key: it targets sub-lists */
+        .container li > ul, .container li > ol {
+            margin: 0.5rem 0;
+            padding-left: 2rem;  /* This adds the additional shift for 2.1, 2.2 */
+            list-style-type: circle; 
+        }
+
+        .container li {
+            margin-bottom: 0.4rem;
+        }
+
         /* Ensure headers remain left-aligned for better readability */
         .container h1, 
         .container h2, 
@@ -106,15 +124,27 @@
             text-align: left;
         }
         
-        header { text-align: center; padding: 4rem 0 3rem; 
-                margin-bottom: 3rem;
-                max-width: var(--text-width);
-                margin-left: auto;
-                margin-right: auto; 
-                align-items: center  !important; /* Centers children horizontally in a flex column */
+        /* ── Centered Header Fix ── */
+        header { 
+            display: block; /* Use block to allow text-align to work perfectly */
+            text-align: center; 
+            padding: 4rem 0 3rem; 
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: var(--text-width);
+            margin-left: auto;
+            margin-right: auto; 
         }
-        h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; font-weight: 700; text-align: center  !important; justify-content: center;}
-        
+
+        header h1 { 
+            font-size: 3.2rem; 
+            line-height: 1.1; 
+            margin-bottom: 1rem; 
+            font-weight: 700; 
+            text-align: center !important; /* Force every line to the center */
+            display: block;
+            width: 100%;
+        }
         .date { font-family: 'Inter', sans-serif; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
         
         .authors { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin: 2rem 0; }

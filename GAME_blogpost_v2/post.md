@@ -195,7 +195,16 @@ We compare different metrics of adversarial quality and diversity and concludes 
 
 ::video{src="assets/Parabellum_pca.mp4"}
 
-Parabellum 
+Parabellum [^anne2025harnessing] is a battle game research environment implemented in JAX [^jax2018github] for fast parallelization. Two sides, <span style="color: #2070b4;">Blue</span> and <span style="color: #ca171c;">Red</span>, aim to eliminate the other, i.e., the fitness of each side is the sum of the depleted health of the opposing side's units. Each unit can only see other units within its sight range (15m, with the map being 100m wide). At each time step, each unit can either move, stand, attack an enemy in reach, or heal an ally in reach, given its local observation (position, type, side, and health of all the units in sight). There are five types of units with different health, speed, and attack range and damage, represented with different colors. Each side comprises 32 units of each type uniformly spread in each side's starting area, which are placed so that no unit initially sees an enemy unit. 
+
+Parabellum uses behavior trees [^colledanchise2018behavior] to control each unit. Their tree structure allows the use of genetic variation operators and also make them intuitive to design by hand and interpretable. They still require us to define a set of atomics actions and conditions in JAX, that the BT combine to create a policy. We also convert the BT into an array representation that allow direct vectorization of their evaluation accross all units with the constraint of the BT's size. 
+
+In Parabellum, we compare GAME to ablations and a variant with a multi-objectif fitness that secondarly minimize the size of the BT. The main takeaways are: 
+
+- all components of GAME are necessary to achieve the highest quality and diversity of the final solutions.
+- Minimizing the BT size prunes neutral mutations that appear to be essential stepping stones for high-performing solutions. This supports the neutral theory of molecular evolution [^kimura1979neutral], which posits that most variation at the molecular level is neutral yet can drive the evolution of complex organisms in nature.
+- Bootstrapping each generation using solutions from previous ones accelerates the search compared to starting from scratch at each generation. However, the only variant demonstrating constant generation of new solutions throughout all generations is the one without the bootstrapping. This phenomenon is related to extinction events [^lehman2015enhancing] and warrants further investigation, as it currently does not yield the best diversity or quality. 
+- The use of BTs with a fixed set of atomics limits the open-endedness of the search space. An interesting future direction is to use end-to-end neural networks that map observations to actions, potentially employing neuroevolution [^stanley2002evolving], to move toward a more open-ended search space.
 
 ### Soft-robot: Wrestling
 

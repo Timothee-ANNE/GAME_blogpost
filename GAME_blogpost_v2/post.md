@@ -210,6 +210,21 @@ In Parabellum, we compare GAME to ablations and a variant with a multi-objectif 
 
 ::video{src="assets/Wrestling_pca.mp4"}
 
+Wrestling is a custom EvoGym [^bhatia2021evolution] environement where two 2D soft-robot fight to be the closest to the center of the arena. While the coevolution of morphology and its control is an interesting and challenging topic [^cheney2018scalable, bhatia2021evolution, mertan2023modular, nadizar2025enhancing], it is beyond the scope of this introductory GAME work to explore the intersection of adversarial coevolution and body–brain coevolution. We instead focus on the adversarial coevolution of morphology in an adversarial environment, where the morphology passively provides actuation. We follow [^cheney2014unshackling, kriegman2017minimal] by defining passive and active voxels that change surface following a sine wave pattern. We defined seven types of voxels represented by an integer: (0) empty (transparent), (1) rigid (black), (2) soft (gray), (3) horizontal actuated in-phase (orange), (4) vertical actuated in-phase (royalblue), (5) horizontal actuated anti-phase (gold), and (6) vertical actuated anti-phase (skyblue). GAME evolves 5x5 robots with the constraints that all non-empty voxel are connected and that there is at least one actuated voxel. 
+
+The fitness function is defined as the ratio of timesteps where the robot was the closest to the center. Interestingly, this zero-sum fitness makes the application of classic QD mehtods even more difficult as a nearly static morphology can get a perfect fitness if it is just slightly closer to the center, i.e., the fitness is purely relative. As behavior space wa also use the same VEM, i.e., CLIP [^radford2021learning], on 5 subframes of the confrontation video.  
+
+We evaluate GAME against a one-sided baseline (i.e., we use MTMB-ME against a fixed set of random opponents for the same total number of evaluations), with the following takeaways:
+
+- the one-sided baseline obtains a slightly greater coverage of behaviors. This is mainly due to it not having to restart it's search at each generation compared to GAME, which even with the bootstrap, has to allocate some evaluation to repopulate the archive. 
+- GAME morphologies nearly always beats the morphologies of the one-sided baseline, which overfit the fixed set of random opponents. When checking the average velocity of the morphologies, GAME finds morphologies with signficianlty higher velocities than the one-sided baseline, which could be satisfied with just slightly higher velocities than random morphologies. This validates the needs of coevolution in adversarial problems. 
+
+
+::figure{src="assets/wrestling_both_species_generations.png" caption="ELO Score performance of the morphological species through the generations for one run of GAME. <span style="color: #2070b4;">Blue</span> side (left) and <span style="color: #ca171c;">Red</span> side (right)."}
+
+Additionaly, we took all the elites found by one execution of GAME through the generations, cluster them by morphologie, and computed their relative performance using a ELO Score via a round robin tournament. This tells us that the search space is not open-ended, in the sense that all the morphologecal species where discoverd at the first generation. Nonetheless, at each generation GAME imrpoves the performance of each species. Future work should focus on integrating body–brain coevolution [^cheney2018scalable, bhatia2021evolution, mertan2023modular, nadizar2025enhancing] into GAME to enable a truly open-ended search space for artificial creatures.
+
+
 ### Pong
 
 ### Cat-and-mouse

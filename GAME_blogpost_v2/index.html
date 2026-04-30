@@ -360,7 +360,29 @@
 
         /* Side-by-side helper class if you use HTML in MD */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 2rem 0; }
-        
+        /* Container for the three videos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+            gap: 15px;                             /* Space between videos */
+            margin: 2rem 0;                        /* Space above/below the grid */
+            width: 100%;
+        }
+
+        /* Ensure videos fill their column and stay aligned */
+        .video-grid video {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        /* Mobile responsive: stack them when the screen is narrow */
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr; 
+            }
+        }
     </style>
 </head>
 <body>
@@ -493,12 +515,38 @@
 <li><strong>Ranking</strong>: It, first, (b.1) performs a tournament between all the elites and the previous tasks (size $N_{task}^2\cdot N_{cell}$) to (b.2) collect the fitness vector. Then it (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites in $N_{task}$ cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with \textbf{Behavior}. Finally, for the bootstrapping, only the evaluations from the selected elites are used, meaning that most of the evaluations of the tournament (i.e., $N_{task}^2\cdot (N_{cell}-1)$) are not repurposed.</li>
 <li><strong>Pareto</strong>: (d.1) uses  NSGA-III <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="K. Deb and H. Jain, An evolutionary many-objective optimization algorithm using reference-point-based nondominated sorting approach, part I: solving problems with box constraints, IEEE transactions on evolutionary computation, vol. 18, no. 4, pp. 577–601, 2013.">41</span>]</span> to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  </li>
 </ul>
-<p>We compare different metrics of adversarial quality and diversity and concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that <strong>Ranking</strong> is slightly but signficantly better than <strong>Pareto</strong>. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. </p>
-<h3 id="pong">Pong</h3>
-<h3 id="cat-and-mouse">Cat-and-mouse</h3>
-<h3 id="pursuers-and-evaders">Pursuers-and-evaders</h3>
+<div class="video-grid">
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/Pong_teaser.mp4"></video>
+        <p style="text-align:center;">Pong</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/CatAndMouse_teaser.mp4"></video>
+        <p style="text-align:center;">Cat-and-mouse</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/PursuersAndEvaders_teaser.mp4"></video>
+        <p style="text-align:center;">Pursuers-and-evaders</p>
+    </div>
+</div>
+
+<p>We compare the different variants using different metrics of adversarial quality and diversity on three adversarial problems: Pong, Cat-and-mouse, and Pursuers-and-evaders. We concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that <strong>Ranking</strong> is slightly but signficantly better than <strong>Pareto</strong>. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. </p>
 <h2 id="what-now">What Now?</h2>
 <h3 id="adversarial-qd-what-for">Adversarial QD, what for?</h3>
+<p>Adversarial QD has multiple applications:</p>
+<ul>
+<li><strong>Find all high-quality solutions</strong>: for example, to automatically estimate the balance of an adversarial game, a costly task that still relies on human play testing and expert knowledge.</li>
+<li><strong>Evaluate the safety of a system</strong>: for example, in Red teaming for finding prompt attacks against large language models, or for automatically finding bugs in a game.</li>
+<li><strong>Find counter-strategies</strong>: in a defense scenario, it can be useful to know all the possible strategies of the opponent and have access to a database of all the possible counter-strategies.</li>
+<li><strong>Find a robust solution</strong>: by coevolving both sides, adversarial QD avoids overfitting to a fixed set of opponents.</li>
+<li><strong>Study open-ended systems</strong>: adversarial QD can help artificial life research create an open-ended process by continually promoting a virtuous circle or an arms race. </li>
+</ul>
+<p>And for each of those end-goal, the practitionner may need a different metric, specific to adversarial QD, which is also discussed in our second paper <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>.</p>
+<h3 id="open-ended-coevolution">Open-ended coevolution</h3>
+<p>The main limitation of these two works are the non open-endedness of the adversarial domains. We're enthusiastic about applying GAME to more open-ended problems so that it may help better understand the emergence of artificial open-endedness.</p>
+<h3 id="playing-with-game">Playing with GAME</h3>
+<p>If like us you want to play with GAME for your own adversarial problems, we recommend you to look at the examples of our second paper <a href="https://github.com/Timothee-ANNE/GAME_tournament_informed">Repo</a>.
+We are also open for collaboration and we will be at Gecco '26, San José, Costa Rica, July 13 - 17, 2026, for in person chat. </p>
 <h2 id="appendix">Appendix</h2>
 <h3 id="acknowledgements">Acknowledgements</h3>
 <p>Funded by the armasuisse S+T project F00-007.</p>

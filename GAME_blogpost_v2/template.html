@@ -360,7 +360,29 @@
 
         /* Side-by-side helper class if you use HTML in MD */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 2rem 0; }
-        
+        /* Container for the three videos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+            gap: 15px;                             /* Space between videos */
+            margin: 2rem 0;                        /* Space above/below the grid */
+            width: 100%;
+        }
+
+        /* Ensure videos fill their column and stay aligned */
+        .video-grid video {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        /* Mobile responsive: stack them when the screen is narrow */
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr; 
+            }
+        }
     </style>
 </head>
 <body>

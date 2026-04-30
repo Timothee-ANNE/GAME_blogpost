@@ -230,18 +230,42 @@ In our second work [^anne2026tournament], we propose two new task selection meth
 - **Ranking**: It, first, (b.1) performs a tournament between all the elites and the previous tasks (size $N_{task}^2\cdot N_{cell}$) to (b.2) collect the fitness vector. Then it (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites in $N_{task}$ cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with \textbf{Behavior}. Finally, for the bootstrapping, only the evaluations from the selected elites are used, meaning that most of the evaluations of the tournament (i.e., $N_{task}^2\cdot (N_{cell}-1)$) are not repurposed.
 - **Pareto**: (d.1) uses  NSGA-III [^deb2013evolutionary] to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  
 
-We compare different metrics of adversarial quality and diversity and concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that **Ranking** is slightly but signficantly better than **Pareto**. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. 
+<div class="video-grid">
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/Pong_teaser.mp4"></video>
+        <p style="text-align:center;">Pong</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/CatAndMouse_teaser.mp4"></video>
+        <p style="text-align:center;">Cat-and-mouse</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="assets/PursuersAndEvaders_teaser.mp4"></video>
+        <p style="text-align:center;">Pursuers-and-evaders</p>
+    </div>
+</div>
 
-### Pong
-
-### Cat-and-mouse
-
-### Pursuers-and-evaders
+We compare the different variants using different metrics of adversarial quality and diversity on three adversarial problems: Pong, Cat-and-mouse, and Pursuers-and-evaders. We concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that **Ranking** is slightly but signficantly better than **Pareto**. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. 
 
 ## What Now?
 
 ### Adversarial QD, what for?
+Adversarial QD has multiple applications:
 
+- **Find all high-quality solutions**: for example, to automatically estimate the balance of an adversarial game, a costly task that still relies on human play testing and expert knowledge.
+- **Evaluate the safety of a system**: for example, in Red teaming for finding prompt attacks against large language models, or for automatically finding bugs in a game.
+- **Find counter-strategies**: in a defense scenario, it can be useful to know all the possible strategies of the opponent and have access to a database of all the possible counter-strategies.
+- **Find a robust solution**: by coevolving both sides, adversarial QD avoids overfitting to a fixed set of opponents.
+- **Study open-ended systems**: adversarial QD can help artificial life research create an open-ended process by continually promoting a virtuous circle or an arms race. 
+
+And for each of those end-goal, the practitionner may need a different metric, specific to adversarial QD, which is also discussed in our second paper [^anne2026tournament].
+
+### Open-ended coevolution
+The main limitation of these two works are the non open-endedness of the adversarial domains. We're enthusiastic about applying GAME to more open-ended problems so that it may help better understand the emergence of artificial open-endedness.
+
+### Playing with GAME
+If like us you want to play with GAME for your own adversarial problems, we recommend you to look at the examples of our second paper [Repo](https://github.com/Timothee-ANNE/GAME_tournament_informed).
+We are also open for collaboration and we will be at Gecco '26, San José, Costa Rica, July 13 - 17, 2026, for in person chat. 
 
 ## Appendix 
 

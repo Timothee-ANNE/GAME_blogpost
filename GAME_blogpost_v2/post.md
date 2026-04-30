@@ -175,20 +175,6 @@ More formally, GAME:
 - **(h)** Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament.
 - go back to step **(b)**. 
 
-### Task selection mechanism 
-::figure{src="assets/task_selection.png"}
-
-The task selection mechanism drives the coevolutionary process and should select tasks that present greater diversity of challenges at each generation to broaden the illumination. The original GAME [^anne2026game] uses a behavioral criterion to select tasks; we argue that by disregarding the problem's adversarial aspect, it fails to provide the greatest illumination.
-
-In our second work [^anne2026tournament], we propose two new task selection methods, **Ranking** and **Pareto**, that leverage a tournament between the current elites and tasks, that we compare against the original method **Behavior** and a random baseline **Random**. 
-
-- **Behavior**: (a.1) aggregates all elites using behavior collected from MTMB-ME's evaluations, (a.2) recomputes an archive as if they were from the same behavior space using $N_{task}$ cells, and (a.3) selects the elite of each cell, ignoring that they were evaluated on different tasks.
-- **Random**: simply selects the tasks as a random subsets of the elites. 
-- **Ranking**: It, first, (b.1) performs a tournament between all the elites and the previous tasks (size $N_{task}^2\cdot N_{cell}$) to (b.2) collect the fitness vector. Then it (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites in $N_{task}$ cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with \textbf{Behavior}. Finally, for the bootstrapping, only the evaluations from the selected elites are used, meaning that most of the evaluations of the tournament (i.e., $N_{task}^2\cdot (N_{cell}-1)$) are not repurposed.
-- **Pareto**: (d.1) uses  NSGA-III [^deb2013evolutionary] to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  
-
-We compare different metrics of adversarial quality and diversity and concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that **Ranking** is slightly but signficantly better than **Pareto**. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. 
-
 ## Experiments
 
 ### Battle Game: Parabellum
@@ -224,6 +210,27 @@ We evaluate GAME against a one-sided baseline (i.e., we use MTMB-ME against a fi
 
 Additionaly, we took all the elites found by one execution of GAME through the generations, cluster them by morphologie, and computed their relative performance using a ELO Score via a round robin tournament. This tells us that the search space is not open-ended, in the sense that all the morphologecal species where discoverd at the first generation. Nonetheless, at each generation GAME imrpoves the performance of each species. Future work should focus on integrating body–brain coevolution [^cheney2018scalable, bhatia2021evolution, mertan2023modular, nadizar2025enhancing] into GAME to enable a truly open-ended search space for artificial creatures.
 
+### Deck bulding: Hearthstopper 
+
+To further evaluate GAME's generality, this time without VEM, we apply it to a deck-building and battle card game. In addition, we compare its ability to find diverse and high-quality decks against a one-sided illumination QD ablation, as in [^fontaine2019mapping]. We use a Python simulator of the Hearthstone digital collectible and battle card game [^hearthstone2014], Hearthbreaker [^hearthbreaker]. Hearthstone is a two-phase card game. In the first phase, deck building, the player chooses a class (among the 9 available) and creates a deck of 30 cards. This creates classes with different play styles; for example, the Mage focuses on spells that directly damage a unit, the Warrior on dealing damage with weapons, and the Warlock on flooding its board with cheap minions. In the second phase, deck battle, the player picks their deck of cards and battles against another player with their own class and deck of cards. The goal is to set the opponent's life from 30 to 0. In this case study, similarly to [^fontaine2019mapping], we consider only the deck building phase and use Hearthbreaker's Trade Agent heuristic to play the deck. This heuristic is a greedy policy that maximizes the opponent's minion loss and then maximizes damage to their health.
+
+As comparison, we use a one-sided illumination (MAP-Elites) that only evolves a diversity of decks against the starting deck of the opposing side, while GAME coevolves a diversity of solution for both sides. Comparing against the starting decks: GAME's coverage is significantly worse than the one-sided method. The reason is that GAME splits the archive for multiple tasks, leaving few cells for diversity, while the one-sided method can allocate all its cells for diversity. This becomes apparent in this case study because we use a 2D behavior space. It is thus much easier to cover the entire space of reachable behaviors. This highlights a limitation of GAME: the independence of diversity across tasks, which leads to storing elites with similar behaviors across tasks, thereby reducing the overall diversity of the archive. Still, even though GAME's elites are not evolved against the starting decks, they show similar performance against them. 
+
+Comparing the methodes against each other: GAME finds significantly better decks for 7 out of 10 comparisons and non-significantly better decks for the remaining three. A simple reason is that the one-sided method's decks are only evolved to compete against the starting deck, whereas GAME coevolves a diversity of decks that prevent overfitting to a single one. 
+
+## Task selection mechanism 
+::figure{src="assets/task_selection.png"}
+
+The task selection mechanism drives the coevolutionary process and should select tasks that present greater diversity of challenges at each generation to broaden the illumination. The original GAME [^anne2026game] uses a behavioral criterion to select tasks; we argue that by disregarding the problem's adversarial aspect, it fails to provide the greatest illumination.
+
+In our second work [^anne2026tournament], we propose two new task selection methods, **Ranking** and **Pareto**, that leverage a tournament between the current elites and tasks, that we compare against the original method **Behavior** and a random baseline **Random**. 
+
+- **Behavior**: (a.1) aggregates all elites using behavior collected from MTMB-ME's evaluations, (a.2) recomputes an archive as if they were from the same behavior space using $N_{task}$ cells, and (a.3) selects the elite of each cell, ignoring that they were evaluated on different tasks.
+- **Random**: simply selects the tasks as a random subsets of the elites. 
+- **Ranking**: It, first, (b.1) performs a tournament between all the elites and the previous tasks (size $N_{task}^2\cdot N_{cell}$) to (b.2) collect the fitness vector. Then it (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites in $N_{task}$ cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with \textbf{Behavior}. Finally, for the bootstrapping, only the evaluations from the selected elites are used, meaning that most of the evaluations of the tournament (i.e., $N_{task}^2\cdot (N_{cell}-1)$) are not repurposed.
+- **Pareto**: (d.1) uses  NSGA-III [^deb2013evolutionary] to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  
+
+We compare different metrics of adversarial quality and diversity and concludes that both tournament informed task selection methods outperforms the orignal method and the random baseline, and that **Ranking** is slightly but signficantly better than **Pareto**. This open the way for more performant adversarial QD while futur work should focus on proposing more sample efficient methods that estimate the costly tournament ranking. 
 
 ### Pong
 

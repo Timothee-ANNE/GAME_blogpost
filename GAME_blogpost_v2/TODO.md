@@ -1,7 +1,0 @@
-- [ ] Task-selection explanation
-- [ ] Parabellum explanation and result 
-- [ ] Wrestiling explanation and result 
-- [ ] Hearthstoper explanation and result 
-- [ ] Pong, Cat-and-mouse, and Pursuers-and-evaders explanation and result 
-- [ ] Adversarial QD, what for? 
-- [ ] What's next? 

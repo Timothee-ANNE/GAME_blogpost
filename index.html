@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          processEscapes: true
+        },
+        options: {
+          skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --text-width: 1080px; 
+            --bg-color: #ffffff;
+            --accent: #000;
+        }
+        
+        body { 
+            font-family: 'Crimson Pro', serif; 
+            line-height: 1.7; 
+            color: #1a1a1a; 
+            margin: 0; 
+            background: var(--bg-color); 
+            font-size: 1.25rem; 
+        }
+
+        /* ── Full Width Teaser ── */
+        .teaser-outer {
+            width: 100%;
+            background: #ffffff;
+            padding-bottom: 2rem; /* Space for the main caption below the videos */
+        }
+
+        .teaser-container {
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .teaser-item {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .teaser-item video {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Sub-labels (a, b, c...) */
+        .teaser-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* Main caption below the whole strip */
+        .teaser-main-caption {
+            max-width: 100%; /* Matches your article width */
+            margin: 1.5rem auto 0;
+            padding: 0 20px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* ── Main Content Justification ── */
+        .container, .post-body { 
+            max-width: var(--text-width); 
+            margin: 0 auto; 
+            padding: 0 20px; 
+            
+            /* Justify the text */
+            text-align: justify;
+            
+            /* Optional: Improves the look of justified text on narrow screens */
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -ms-hyphens: auto;
+        }
+
+        /* ── Main Content Lists (Fixed for Nesting) ── */
+        .container ul, .container ol {
+            margin: 1rem 0;
+            padding-left: 2rem; /* Indent for the first level */
+            text-align: left;    /* Keep lists left-aligned */
+        }
+
+        /* This is the key: it targets sub-lists */
+        .container li > ul, .container li > ol {
+            margin: 0.5rem 0;
+            padding-left: 2rem;  /* This adds the additional shift for 2.1, 2.2 */
+            list-style-type: circle; 
+        }
+
+        .container li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Ensure headers remain left-aligned for better readability */
+        .container h1, 
+        .container h2, 
+        .container h3 {
+            text-align: left;
+        }
+        
+        /* ── Centered Header Fix ── */
+        header { 
+            display: block; /* Use block to allow text-align to work perfectly */
+            text-align: center; 
+            padding: 4rem 0 3rem; 
+            margin-bottom: 3rem;
+            width: 100%;
+            max-width: var(--text-width);
+            margin-left: auto;
+            margin-right: auto; 
+        }
+
+        header h1 { 
+            font-size: 3.2rem; 
+            line-height: 1.1; 
+            margin-bottom: 1rem; 
+            font-weight: 700; 
+            text-align: center !important; /* Force every line to the center */
+            display: block;
+            width: 100%;
+        }
+        .date { font-family: 'Inter', sans-serif; color: #666; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .authors { display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin: 2rem 0; }
+        .author { display: flex; flex-direction: column; align-items: center; font-family: 'Inter', sans-serif; font-size: 0.95rem; }
+        .affil { color: #888; font-size: 0.8rem; margin-top: 2px; }
+
+        .links { display: flex; justify-content: center; gap: 12px; margin-bottom: 3rem; }
+        .btn { 
+            font-family: 'Inter', sans-serif; 
+            text-decoration: none; 
+            color: #000; 
+            border: 1px solid #ddd; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            font-size: 0.85rem; 
+            transition: all 0.2s; 
+        }
+        .btn:hover { background: #fafaf8; border-color: #bbb; }
+
+        /* ── Updated Abstract Styling ── */
+        .abstract-section {
+            max-width: 1080px;
+            margin: 0 auto 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 0rem;
+        }
+
+        .abstract-section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin: 0;
+            /* FIX: Justify the text */
+            text-align: justify;
+        }
+
+        /* Figure Styling */
+        .post-figure {
+            max-width: 100%;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .post-figure img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .figure-caption {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 1rem;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        /* BibTeX Fix (Black background, orange text) */
+        .post-body pre {
+            background: #1a1a1a !important; 
+            border-radius: 6px;
+            padding: 1.5rem;
+        }
+
+        .post-body pre code {
+            color: #ffbb00 !important;
+            background: transparent !important;
+        }
+        /* --- Citation Tooltip --- */
+        .cite-ref {
+            color: #007bff;
+            cursor: help;
+            position: relative;
+            padding: 0 1px; /* Makes the number slightly easier to hover */
+            font-size: 0.9em;
+            vertical-align: super;
+        }
+
+        .cite-ref:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 250px;
+            line-height: 1.4;
+            z-index: 100;
+            font-family: 'Inter', sans-serif;
+            font-style: normal;
+            text-align: left;
+        }
+
+        /* The entire [1, 2] block */
+        .cite-ref-group {
+            color: #007bff;          /* Blue brackets */
+            font-size: 0.85em;       /* Slightly smaller */
+            vertical-align: baseline;   /* Above the text line */
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: default;
+        }
+
+        /* The numbers inside the brackets */
+        .cite-ref-num {
+            color: #007bff;          /* Blue numbers */
+            cursor: help;            /* Show help cursor on hover */
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .cite-ref-num:hover {
+            color: #0056b3;          /* Darker blue on hover */
+            text-decoration: underline;
+        }
+
+        /* Tooltip (remains the same) */
+        .cite-ref-num:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 180%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 280px;
+            line-height: 1.4;
+            z-index: 100;
+            font-weight: 400;
+        }
+
+        /* --- References List --- */
+        .references-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .references-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .references-section ol {
+            font-size: 0.95rem;
+            color: #555;
+            padding-left: 1.5rem;
+        }
+
+        .references-section li {
+            margin-bottom: 0.5rem;
+        }
+        /* ── Updated Code/BibTeX Styling ── */
+        .post-body pre {
+            background: rgb(98, 255, 7); /* Dark background */
+            border-radius: 6px;
+            padding: 1.2rem 1.4rem;
+            overflow-x: auto;
+            margin: 1.5rem 0 1.8rem;
+            /* Ensure no unexpected white borders or shadows */
+            border: none; 
+        }
+
+        .post-body pre code {
+            background: transparent; /* Remove white/highlight background */
+            color: #ffbb00;          /* Off-white text for readability */
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0;
+            line-height: 1.5;
+            /* Reset any inherited highlighting from markdown extensions */
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        /* Specific fix for BibTeX header if you write it as a header */
+        .post-body h2 + pre {
+            margin-top: 0.5rem;
+        }
+
+        /* ── Direct-on-background Figures ── */
+        .content img, .content video {
+            width: 100%;
+            height: auto;
+            margin: 1.5rem 0;
+            /* Removed borders/backgrounds for the flat look */
+            border: none; 
+            box-shadow: none;
+        }
+
+        /* ── Typography & Headers ── */
+        h2 { font-family: 'Inter', sans-serif; font-size: 1.8rem; margin-top: 4rem; font-weight: 600; }
+        p { margin-bottom: 1.6rem; }
+        
+        code { font-family: monospace; background: #f4f4f400; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+        pre { background: #1e1e1e; color: #efefef; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; }
+        
+        blockquote { 
+            border-left: 4px solid #000; 
+            margin: 2rem 0; 
+            padding: 0.5rem 1.5rem; 
+            background: #f9f9f9;
+        }
+
+        /* Side-by-side helper class if you use HTML in MD */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 2rem 0; }
+        /* Container for the three videos */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+            gap: 15px;                             /* Space between videos */
+            margin: 2rem 0;                        /* Space above/below the grid */
+            width: 100%;
+        }
+
+        /* Ensure videos fill their column and stay aligned */
+        .video-grid video {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        /* Mobile responsive: stack them when the screen is narrow */
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="teaser-outer">
+        <div class="teaser-container">
+            <div class="teaser-item">
+  <video autoplay loop muted playsinline src="./assets/parabellum_teaser.mp4"></video>
+  <div class="teaser-label">(a) Parabellum</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="./assets/wrestling_teaser.mp4"></video>
+  <div class="teaser-label">(b) Wrestling</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="./assets/Pong_teaser.mp4"></video>
+  <div class="teaser-label">(c) Pong</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="./assets/CatAndMouse_teaser.mp4"></video>
+  <div class="teaser-label">(d) Cat-and-mouse</div>
+</div>
+<div class="teaser-item">
+  <video autoplay loop muted playsinline src="./assets/PursuersAndEvaders_teaser.mp4"></video>
+  <div class="teaser-label">(e) Pursuers-and-evaders</div>
+</div>
+
+        </div>
+        <div class="teaser-main-caption">
+            <b>Examples of behaviors found with our method, GAME, across five environments.</b> GAME was able to find a diversity of solutions in five adversarial domains: (a) Parabellum, a battle game with many units, (b) Wrestling, a soft-robot morphology competition, (c) Pong, a symmetrical and adversarial game, (d) Cat-and-mouse, an asymetrical game where a fast cat wants to catch a agile mouse, and (e) Pursuers-and-evaders, a multi-agent and asymetrical game in an enclosed arena.
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="date">April 23, 2026</div>
+            <h1>Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites</h1>
+            <div class="authors"><div class="author"><strong>Timothée Anne</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Noah Syrkis</strong><span class="affil">IT University of Copenhagen</span></div><div class="author"><strong>Meriem Elhosni</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Florian Turati</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alexandre Manai</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Franck Legendre</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Alain Jaquier</strong><span class="affil">armasuisse Science+Technology</span></div><div class="author"><strong>Sebastian Risi</strong><span class="affil">IT University of Copenhagen</span></div></div>
+            <div class="links"></div>
+        </header>
+
+        <section class="abstract">
+            
+        </section>
+
+        <article class="content">
+            <figure class="post-figure">
+  <video autoplay loop muted playsinline src="./assets/GAME_simple_overview_animation.mp4"></video>
+  <div class="figure-caption"><strong>GAME</strong> is a coevolutionary Quality-Diversity algorithm that finds a set of diverse and high-quality solutions for adversarial problems by alternating the execution of MTMB-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span> on a set of tasks (i.e., fixed solutions from the opposing side) to encourage arms race dynamics. For example, in this illustration, the blue letters could represent strategies a mouse would use to avoid a cat, and the red letters represent strategies a cat would use to catch a mouse.</div>
+</figure>
+<h2 id="introduction">Introduction</h2>
+<p>Evolving a set of diverse, high-quality solutions that optimize a fitness function while covering a behavior space is known as Quality-Diversity (QD) <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. K. Pugh, L. B. Soros, and K. O. Stanley, Quality diversity: A new frontier for evolutionary computation, Frontiers in Robotics and AI, vol. 3, pp. 40, 2016.">2</span>]</span> (or Illumination). It has been successfully applied in multiple domains: robotics <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Cully, J. Clune, D. Tarapore, and J. Mouret, Robots that can adapt like animals, Nature, vol. 521, no. 7553, pp. 503–507, 2015.">3</span>]</span>, video games <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="D. Gravina, A. Khalifa, A. Liapis, J. Togelius, and G. N. Yannakakis, Procedural content generation through quality diversity, in 2019 IEEE Conference on Games (CoG), pp. 1–8, 2019.">4</span>]</span>, chemical synthesis <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Y. Jiang, D. Salley, A. Sharma, G. Keenan, M. Mullin, and L. Cronin, An artificial intelligence enabled chemical synthesis robot for exploration and optimization of nanomaterials, Science advances, vol. 8, no. 40, pp. eabo2626, 2022.">5</span>]</span>, and aeronautics <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="L. Brevault and M. Balesdent, Bayesian Quality-Diversity approaches for constrained optimization problems with mixed continuous, discrete and categorical variables, Engineering Applications of Artificial Intelligence, vol. 133, pp. 108118, 2024.">6</span>]</span>.</p>
+<p>QD can be used to illuminate adversarial problems, for which it can be critical to identify all possible attack strategies, for example, to evaluate a system's current safety and defend accordingly. Examples of applications include: video games for automatic balancing of competitive games <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. C. Fontaine, S. Lee, L. B. Soros, F. d. M. Silva, J. Togelius, and A. K. Hoover, Mapping hearthstone deck spaces through map-elites with sliding boundaries, in Proceedings of The Genetic and Evolutionary Computation Conference, pp. 161–169, 2019.">7</span>, <span class="cite-ref-num" data-tooltip="M. C. Fontaine, J. Togelius, S. Nikolaidis, and A. K. Hoover, Covariance matrix adaptation for the rapid illumination of behavior space, in Proceedings of the 2020 genetic and evolutionary computation conference, pp. 94–102, 2020.">8</span>]</span>, generalization evaluation of machine learning models <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="K. Steckel and J. Schrum, Illuminating the space of beatable lode runner levels produced by various generative adversarial networks, in Proceedings of the genetic and evolutionary computation conference companion, pp. 111–112, 2021.">9</span>, <span class="cite-ref-num" data-tooltip="M. Samvelyan, D. Paglieri, M. Jiang, J. Parker-Holder, and T. Rocktaschel, Multi-agent diagnostics for robustness via illuminated diversity, arXiv preprint arXiv:2401.13460, 2024.">10</span>]</span>, and red teaming <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="D. Ganguli, L. Lovitt, J. Kernion, A. Askell, Y. Bai, S. Kadavath, B. Mann, E. Perez, N. Schiefer, K. Ndousse, and et al., Red teaming language models to reduce harms: Methods, scaling behaviors, and lessons learned, arXiv preprint arXiv:2209.07858, 2022.">11</span>]</span>, i.e., finding adversarial prompts that generate harmful content <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. Samvelyan, S. Raparthy, A. Lupu, E. Hambro, A. H. Markosyan, M. Bhatt, Y. Mao, M. Jiang, J. Parker-Holder, J. Foerster, T. Rocktaschel, and R. Raileanu, Rainbow Teaming: Open-Ended Generation of Diverse Adversarial Prompts, ArXiv, vol. abs/2402.16822, 2024.">12</span>, <span class="cite-ref-num" data-tooltip="R. Wang, K. Xue, Z. Qin, Z. Li, S. Tang, H. Li, S. Liu, and C. Qian, Quality-Diversity Red-Teaming: Automated Generation of High-Quality and Diverse Attackers for Large Language Models, arXiv preprint arXiv:2506.07121, 2025.">13</span>, <span class="cite-ref-num" data-tooltip="Q. Dang, C. Ngo, and T. Hy, RainbowPlus: Enhancing Adversarial Prompt Generation via Evolutionary Quality-Diversity Search, arXiv preprint arXiv:2504.15047, 2025.">14</span>, <span class="cite-ref-num" data-tooltip="T. H. Nguyen and N. H. Luong, Diversifying Adversarial Attacks on Text-to-image Generation, in Proceedings of the Genetic and Evolutionary Computation Conference Companion, pp. 315–318, 2025.">15</span>]</span>. Those works illuminate only one side of the adversarial problem while fixing the other, thereby providing only partial illumination against the set of opposing problems picked by the experimenter.</p>
+<p>Evolving both sides follows the artificial life goal of creating an open-ended evolutionary process through adversarial coevolution <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. A. Bedau, J. S. McCaskill, N. H. Packard, S. Rasmussen, C. Adami, D. G. Green, T. Ikegami, K. Kaneko, and T. S. Ray, Open problems in artificial life, Artificial life, vol. 6, no. 4, pp. 363–376, 2000.">16</span>, <span class="cite-ref-num" data-tooltip="A. Dorin and S. Stepney, What Is Artificial Life Today, and Where Should It Go?, 2024.">17</span>]</span>. For example, the POET algorithm <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="R. Wang, J. Lehman, J. Clune, and K. O. Stanley, Poet: open-ended coevolution of environments and their optimized solutions, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 142–151, 2019.">18</span>, <span class="cite-ref-num" data-tooltip="R. Wang, J. Lehman, A. Rawal, J. Zhi, Y. Li, J. Clune, and K. Stanley, Enhanced poet: Open-ended reinforcement learning through unbounded invention of learning challenges and their solutions, in International conference on machine learning, pp. 9940–9951, 2020.">19</span>]</span> coevolves bipedal walkers' policies and environments to create an automatic curriculum toward more robust policies;  <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="V. Costa, N. Lourenco, J. Correia, and P. Machado, Exploring the evolution of gans through quality diversity, in Proceedings of the 2020 genetic and evolutionary computation conference, pp. 297–305, 2020.">20</span>]</span> coevolve Generative Adversarial Networks (GANs) to improve their performance using QD; and recently, <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Dharna, C. Lu, and J. Clune, Quality-Diversity Self-Play: Open-Ended Strategy Innovation via Foundation Models, in NeurIPS 2024 Workshop on Open-World Agents, 2024.">21</span>]</span> coevolve Python scripts in a pursuer and evader game. However, a limitation of those works is that they are domain-specific.</p>
+<p>We present <strong>Generational Adversarial MAP-Elites</strong> (GAME), a new coevolutionary QD algorithm that illuminates both sides of an adversarial problem by alternating the evolution of solutions on one side that maximize the adversarial fitness against fixed opponents from the other side (see figure above). A second contribution is the use of a Vision Embedding Model (VEM) (we use CLIP <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, and et al., Learning transferable visual models from natural language supervision, in International conference on machine learning, pp. 8748–8763, 2021.">22</span>]</span>) to obtain a domain-agnostic behavior descriptor from videos, without requiring a handcrafted behavior descriptor. To handle the high dimensionality of the embedding space, GAME uses an unstructured archive <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="V. Vassiliades, K. Chatzilygeroudis, and J. Mouret, A comparison of illumination algorithms in unbounded spaces, in Proceedings of the Genetic and Evolutionary Computation Conference Companion, pp. 1578–1581, 2017.">23</span>]</span>.</p>
+<p>This blog post includes two publications: the original GAME paper <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Legendre, F., Jaquier, A., &amp; Risi, S. (2025). Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites. IEEE Transactions on Evolutionary Computation. DOI: 10.1109/TEVC.2026.3686956.">24</span>]</span> (the extended version of <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne, N. Syrkis, M. Elhosni, F. Turati, F. Legendre, A. Jaquier, and S. Risi, Generational Adversarial MAP-Elites for Multi-Agent Game Illumination, ALIFE &#x27;25, Kyoto, Japan, 2025.">25</span>]</span>) and a first improvement <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>.</p>
+<h2 id="the-challenges-of-adversarial-quality-diversity">The challenges of adversarial quality diversity</h2>
+<figure class="post-figure">
+  <img src="./assets/challenge.png" alt="figure" loading="lazy">
+</figure>
+<p>The main challenge of adversarial quality diversity is that, when evaluating two opposing solutions, it is not trivial to determine whether a solution's high fitness is due to its high quality or to the opposing solution's poor quality. As in most interesting domains, it is often easier to sample a poor solution; a traditional QD algorithm would select solutions that performed well against poor ones. A second challenge is that the behavior of one solution also depends on the opposing solution; for example, a defensive strategy in a battle game will only react if the opposing units move close enough. </p>
+<p>The current solution to solve these challenges is to freeze one side of the adversarial problem. This is not satisfying as (1) the solutions will overfit the fixed set of opponents, (2) the experimenter needs to know good solutions already, and (3) this prevents the arms-race dynamics often present in adversarial problems. </p>
+<h2 id="our-method-generational-adversarial-map-elites-game">Our method: Generational Adversarial MAP-Elites (GAME)</h2>
+<figure class="post-figure">
+  <video autoplay loop muted playsinline src="./assets/GAME_overview.mp4"></video>
+</figure>
+<p>Our solution is to coevolve both sides in a sequence of generations. At each generation, GAME selects a set of solutions for one side to serve as fixed opponents, also called tasks, and leverages a multi-task QD algorithm, MTBM-ME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.">1</span>]</span>, to evolve for each opponent a set of diverse solutions that perform well against it. GAME then switches sides and selects solutions from the previous generation to serve as fixed opponents at each generation.  </p>
+<p>More formally, GAME:</p>
+<ul>
+<li><strong>(a)</strong> Initializes a first generation of tasks by randomly sampling <span style="color: #2070b4;">Blue</span> solutions. </li>
+<li><strong>(b)</strong> Executes MTMB-ME by alternating sides at each generation. (<em>For the reminder of these explanations, we suppose that GAME is evolving <span style="color: #ca171c;">Red</span> solutions against <span style="color: #2070b4;">Blue</span> tasks.</em>)<ul>
+<li><strong>(c)</strong> At each iteration, picks one <span style="color: #2070b4;">Blue</span> task at random, picks two <span style="color: #ca171c;">Red</span> elites from the all archive at random, and applies a variation operator to obtain a <span style="color: #ca171c;">Red</span> candidate. </li>
+<li><strong>(d)</strong> Evaluates the <span style="color: #ca171c;">Red</span> candidate against the <span style="color: #2070b4;">Blue</span> task to gather the <span style="color: #ca171c;">Red</span> fitness f and the behavior B. (<em>A second contribution of GAME is its ability to use a VEM embedding as a domain-agnostic behavior space that can operate on videos or images. GAME then applies a VEM and concatenates the resulting embeddings to form the behavior descriptor B.</em>)  </li>
+<li><strong>(e)</strong> Updates the archive: if (1) the behavior B would allow the archive to grow or (2) the fitness f is greater than the fitness of the current elite of the cell corresponding to behavior B.  </li>
+</ul>
+</li>
+<li><strong>(f)</strong> Selects a subset of <span style="color: #ca171c;">Red</span> elites to form the next generation of <span style="color: #ca171c;">Red</span> tasks, after the execution of MTMB-ME for a given budget of evaluations. (<em>Designing a task selection method that drives adversarial coevolution to consistently improve quality and diversity is the subject of our second paper and is presented below.</em>) </li>
+<li><strong>(g)</strong> Performs a round robin tournament between the previous <span style="color: #2070b4;">Blue</span> tasks and the new <span style="color: #ca171c;">Red</span> tasks to evaluates the current generation.</li>
+<li><strong>(h)</strong> Bootstraps the next generation of <span style="color: #2070b4;">Blue</span> solutions by using the evaluations performed during the tournament.</li>
+<li>go back to step <strong>(b)</strong>. </li>
+</ul>
+<h2 id="experiments">Experiments</h2>
+<h3 id="battle-game-parabellum">Battle game: Parabellum</h3>
+<figure class="post-figure">
+  <video autoplay loop muted playsinline src="./assets/Parabellum_pca.mp4"></video>
+</figure>
+<p>Parabellum <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="T. Anne, N. Syrkis, M. Elhosni, F. Turati, F. Legendre, A. Jaquier, and S. Risi, Harnessing language for coordination: A framework and benchmark for llm-driven multi-agent control, IEEE Transactions on Games, 2025.">27</span>]</span> is a battle game research environment implemented in JAX <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. Bradbury, R. Frostig, P. Hawkins, M. J. Johnson, C. Leary, D. Maclaurin, G. Necula, A. Paszke, J. VanderPlas, S. Wanderman-Milne, and Q. Zhang, JAX: composable transformations of Python+NumPy programs, 2018.">28</span>]</span> for fast parallelization. Two sides, <span style="color: #2070b4;">Blue</span> and <span style="color: #ca171c;">Red</span>, aim to eliminate the other. At each time step, each unit can either move, stand, attack an enemy in reach, or heal an ally in reach, given its local observation (a unit can only see other units within its sight range). There are five unit types with different health, speed, attack range, and attack damage, each shown in a different color. In our experiment, each side comprises 32 units of each type (i.e., 160 units in total). </p>
+<p>Parabellum uses behavior trees (BTs) <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. Colledanchise and P. Ogren, Behavior trees in robotics and AI: An introduction. CRC Press, 2018.">29</span>]</span> to control each unit, where all the units of one side share the same BT. Their tree structure allows the use of genetic variation operators and also makes them intuitive to design by hand and interpretable. We define a set of atomic actions and conditions in JAX that the BT combines to create a policy, which we convert into an array representation for easy vectorized evaluation, at the cost of limiting the BT's size. </p>
+<p>In Parabellum, we compare GAME to ablations and a variant with a multi-objective fitness that secondarily minimizes the size of the BT. The main takeaways are: </p>
+<ul>
+<li>All components of GAME are necessary to achieve the highest quality and diversity.</li>
+<li>Minimizing the BT size prunes neutral mutations that appear to be essential stepping stones for high-performing solutions. This supports the neutral theory of molecular evolution <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. Kimura, The neutral theory of molecular evolution, Scientific American, vol. 241, no. 5, pp. 98–129, 1979.">30</span>]</span>, which posits that most variation at the molecular level is neutral yet can drive the evolution of complex organisms in nature.</li>
+<li>Bootstrapping each generation using solutions from previous ones accelerates the search compared to starting from scratch at each generation. However, the only variant that consistently generates new solutions across all generations is the one without bootstrapping. This phenomenon is related to extinction events <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. Lehman and R. Miikkulainen, Enhancing divergent search through extinction events, in Proceedings of the 2015 Annual Conference on Genetic and Evolutionary Computation, pp. 951–958, 2015.">31</span>]</span> and warrants further investigation, as it currently does not yield the best diversity or quality. </li>
+<li>The use of BTs with a fixed set of atomics limits the open-endedness of the search space. An interesting future direction is to use end-to-end neural networks that map observations to actions, potentially employing neuroevolution <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="K. O. Stanley and R. Miikkulainen, Evolving neural networks through augmenting topologies, Evolutionary computation, vol. 10, no. 2, pp. 99–127, 2002.">32</span>]</span>, to move toward a more open-ended search space.</li>
+</ul>
+<h3 id="soft-robot-wrestling">Soft-robot: Wrestling</h3>
+<figure class="post-figure">
+  <video autoplay loop muted playsinline src="./assets/Wrestling_pca.mp4"></video>
+</figure>
+<p>Wrestling is a custom EvoGym <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. Bhatia, H. Jackson, Y. Tian, J. Xu, and W. Matusik, Evolution gym: A large-scale benchmark for evolving soft robots, Advances in Neural Information Processing Systems, vol. 34, pp. 2201–2214, 2021.">33</span>]</span> environment in which two 2D soft robots fight to be the closest to the center of the arena. While the coevolution of morphology and its control is an interesting and challenging topic <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="N. Cheney, J. Bongard, V. SunSpiral, and H. Lipson, Scalable co-optimization of morphology and control in embodied machines, Journal of The Royal Society Interface, vol. 15, no. 143, pp. 20170937, 2018.">34</span>, <span class="cite-ref-num" data-tooltip="J. Bhatia, H. Jackson, Y. Tian, J. Xu, and W. Matusik, Evolution gym: A large-scale benchmark for evolving soft robots, Advances in Neural Information Processing Systems, vol. 34, pp. 2201–2214, 2021.">33</span>, <span class="cite-ref-num" data-tooltip="A. Mertan and N. Cheney, Modular controllers facilitate the co-optimization of morphology and control in soft robots, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 174–183, 2023.">35</span>, <span class="cite-ref-num" data-tooltip="G. Nadizar, E. Medvet, and D. G. Wilson, Enhancing adaptability in embodied agents: A multi-quality-diversity approach, IEEE Transactions on Evolutionary Computation, 2025.">36</span>]</span>, it is beyond the scope of this work to explore the intersection of adversarial coevolution and body–brain coevolution. We instead focus on the adversarial coevolution of morphology in an adversarial environment, where the morphology passively provides actuation. We follow <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="N. Cheney, R. MacCurdy, J. Clune, and H. Lipson, Unshackling evolution: evolving soft robots with multiple materials and a powerful generative encoding, ACM SIGEVOlution, vol. 7, no. 1, pp. 11–23, 2014.">37</span>, <span class="cite-ref-num" data-tooltip="S. Kriegman, N. Cheney, F. Corucci, and J. C. Bongard, A minimal developmental model can increase evolvability in soft robots, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 131–138, 2017.">38</span>]</span> and define passive and active voxels that change volume according to a sine-wave pattern. GAME evolves 5x5 robots with the constraints that all non-empty voxels are connected and that there is at least one actuated voxel. </p>
+<p>We define the fitness function as the ratio of timesteps where the robot was closest to the center. Interestingly, this zero-sum fitness makes the application of classic QD methods even more difficult, as a nearly static morphology can achieve perfect fitness if it is only slightly closer to the center, i.e., fitness is purely relative. As a behavior space, we also use the same VEM, i.e., CLIP <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, and et al., Learning transferable visual models from natural language supervision, in International conference on machine learning, pp. 8748–8763, 2021.">22</span>]</span>, on 5 subframes of the confrontation video.  </p>
+<p>We evaluate GAME against a one-sided baseline (i.e., we use MTMB-ME against a fixed set of random opponents for the same total number of evaluations), with the following takeaways:</p>
+<ul>
+<li>The one-sided baseline obtains a slightly greater coverage of behaviors. This is mainly because it doesn't have to restart its search at each generation, unlike GAME, which, even with the bootstrap, still has to allocate some evaluation to repopulate the archive. </li>
+<li>GAME's morphologies nearly always beat the morphologies of the one-sided baseline, which overfit the fixed set of random opponents. When checking the average velocity of the morphologies, GAME finds morphologies with significantly higher velocities than the one-sided baseline, which could be satisfied with just slightly higher velocities than random morphologies. This validates the need for coevolution in adversarial problems. </li>
+</ul>
+<figure class="post-figure">
+  <img src="./assets/wrestling_both_species_generations.png" alt="figure" loading="lazy">
+  <div class="figure-caption">ELO Score performance of the morphological species through the generations for one run of GAME. <span style=</div>
+</figure>
+<p>Additionally, we took all elites from a single execution of GAME across generations, clustered them by morphology, and computed their relative performance using an ELO score in a round-robin tournament. This tells us that the search space is not open-ended, in the sense that GAME discovers all the morphological species in the first generation. Nonetheless, at each generation, GAME improves the performance of each species. Future work should focus on integrating body–brain coevolution <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="N. Cheney, J. Bongard, V. SunSpiral, and H. Lipson, Scalable co-optimization of morphology and control in embodied machines, Journal of The Royal Society Interface, vol. 15, no. 143, pp. 20170937, 2018.">34</span>, <span class="cite-ref-num" data-tooltip="J. Bhatia, H. Jackson, Y. Tian, J. Xu, and W. Matusik, Evolution gym: A large-scale benchmark for evolving soft robots, Advances in Neural Information Processing Systems, vol. 34, pp. 2201–2214, 2021.">33</span>, <span class="cite-ref-num" data-tooltip="A. Mertan and N. Cheney, Modular controllers facilitate the co-optimization of morphology and control in soft robots, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 174–183, 2023.">35</span>, <span class="cite-ref-num" data-tooltip="G. Nadizar, E. Medvet, and D. G. Wilson, Enhancing adaptability in embodied agents: A multi-quality-diversity approach, IEEE Transactions on Evolutionary Computation, 2025.">36</span>]</span> into GAME to enable a truly open-ended search space for artificial creatures.</p>
+<h3 id="deck-building-hearthstopper">Deck building: Hearthstopper</h3>
+<p>To further evaluate GAME's generality, this time without VEM, we apply it to a deck-building and battle card game. In addition, we compare its ability to find diverse and high-quality decks against a one-sided illumination QD ablation, as in <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. C. Fontaine, S. Lee, L. B. Soros, F. d. M. Silva, J. Togelius, and A. K. Hoover, Mapping hearthstone deck spaces through map-elites with sliding boundaries, in Proceedings of The Genetic and Evolutionary Computation Conference, pp. 161–169, 2019.">7</span>]</span>. We use a Python simulator of the Hearthstone digital collectible and battle card game <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="B. Entertainment, Hearthstone: Heroes of Warcraft, 2014.">39</span>]</span>, Hearthbreaker <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Y. Daniel and et al., Hearthbreaker: A Hearthstone Simulator, 2014.">40</span>]</span>. Hearthstone is a two-phase card game. In the first phase, deck building, the player chooses a class and creates a deck of 30 cards. In the second phase, the deck battle, the player battles against an opponent. The goal is to set the opponent's life from 30 to 0. Similar to <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="M. C. Fontaine, S. Lee, L. B. Soros, F. d. M. Silva, J. Togelius, and A. K. Hoover, Mapping hearthstone deck spaces through map-elites with sliding boundaries, in Proceedings of The Genetic and Evolutionary Computation Conference, pp. 161–169, 2019.">7</span>]</span>, we consider only the deck-building phase and use Hearthbreaker's Trade Agent heuristic to play the deck. This heuristic is a greedy policy that maximizes the opponent's minion loss and then maximizes damage to their health.</p>
+<p>We compare with a one-sided illumination (i.e., MAP-Elites <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. Mouret and J. Clune, Illuminating search spaces by mapping elites, arXiv preprint arXiv:1504.04909, 2015.">41</span>]</span>) that evolves a diversity of decks against only the starting deck of the opposing side. In contrast, GAME coevolves a diversity of solutions for both sides. Comparing against the starting decks: GAME's coverage is significantly worse than the one-sided method. The reason is that GAME splits the archive across multiple tasks, leaving few cells for diversity, whereas the one-sided method can allocate all its cells to diversity. This becomes apparent in this case study because we use a 2D behavior space. It is thus much easier to cover the entire space of reachable behaviors. This highlights a limitation of GAME: the independence of diversity across tasks, which leads to the storage of elites with similar behaviors across tasks, thereby reducing the archive's overall diversity. Still, even though GAME's elites are not evolved against the starting decks, they show similar performance against them. </p>
+<p>Comparing the methods against each other: GAME finds significantly better decks for 7 out of 10 comparisons and non-significantly better decks for the remaining three. A simple reason is that the one-sided method's decks are only evolved to compete against the starting deck. In contrast, GAME coevolves a diversity of decks that prevents overfitting to a single one. </p>
+<h2 id="task-selection-mechanism">Task selection mechanism</h2>
+<figure class="post-figure">
+  <img src="./assets/task_selection.png" alt="figure" loading="lazy">
+</figure>
+<p>The task selection mechanism drives the coevolutionary process and should select tasks that present a greater diversity of challenges at each generation to broaden the illumination. The original GAME <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Legendre, F., Jaquier, A., &amp; Risi, S. (2025). Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites. IEEE Transactions on Evolutionary Computation. DOI: 10.1109/TEVC.2026.3686956.">24</span>]</span> uses a behavioral criterion to select tasks, which is not satisfying because it disregards the adversarial aspect.</p>
+<p>In our second work <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>, we propose two new task selection methods, <strong>Ranking</strong> and <strong>Pareto</strong>, that leverage a tournament between the current elites and tasks, and compare them against the original method, <strong>Behavior</strong>, and a random baseline, <strong>Random</strong>. </p>
+<ul>
+<li><strong>Behavior</strong>: (a.1) aggregates all elites using behavior collected from MTMB-ME's evaluations, (a.2) recomputes an archive as if they were from the same behavior space using $N_{task}$ cells, and (a.3) selects the elite of each cell, ignoring that they were evaluated on different tasks.</li>
+<li><strong>Random</strong>: simply selects the tasks as a random subset of the elites. </li>
+<li><strong>Ranking</strong>: (b.1) performs a tournament between all the elites and the previous tasks to (b.2) collect the fitness vector, (c.1) computes the ranking vector of the different tasks for each elite, (c.2) normalizes this ranking, (c.3) uses this as an adversarial behavior descriptor to cluster all the elites into cells, and (c.4) selects the elite of each cell, using the average fitness over all tasks as quality criteria. Note that all the elites have been evaluated against all tasks, so the comparison is fairer than with <strong>Behavior</strong>. Finally, for bootstrapping, only the evaluations from the selected elites are used, meaning that most of the tournament's evaluations are not repurposed.</li>
+<li><strong>Pareto</strong>: (b.1) performs a tournament between all the elites and the previous tasks to (b.2) collect the fitness vector, (d.1) uses  NSGA-III <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="K. Deb and H. Jain, An evolutionary many-objective optimization algorithm using reference-point-based nondominated sorting approach, part I: solving problems with box constraints, IEEE transactions on evolutionary computation, vol. 18, no. 4, pp. 577–601, 2013.">42</span>]</span> to select $N_{task}$ elites from the successive Pareto fronts of the tournament's fitness vectors, and (d.2) performs the bootstrapping.  </li>
+</ul>
+<div class="video-grid">
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="./assets/Pong_teaser.mp4"></video>
+        <p style="text-align:center;">Pong</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="./assets/CatAndMouse_teaser.mp4"></video>
+        <p style="text-align:center;">Cat-and-mouse</p>
+    </div>
+    <div class="grid-item">
+        <video autoplay loop muted playsinline src="./assets/PursuersAndEvaders_teaser.mp4"></video>
+        <p style="text-align:center;">Pursuers-and-evaders</p>
+    </div>
+</div>
+
+<p>We compare the variants using metrics of adversarial quality and diversity across three adversarial problems: Pong, Cat-and-mouse, and Pursuers-and-evaders. We conclude that both tournament-informed task selection methods outperform the original method and the random baseline, and that <strong>Ranking</strong> is slightly but significantly better than <strong>Pareto</strong>. This opens the way for more performant adversarial QD, while future work should focus on proposing more sample-efficient methods that estimate the costly tournament ranking. </p>
+<h2 id="what-now">What Now?</h2>
+<h3 id="adversarial-qd-what-for">Adversarial QD, what for?</h3>
+<p>Adversarial QD has multiple applications:</p>
+<ul>
+<li><strong>Find all high-quality solutions</strong>: for example, to automatically estimate the balance of an adversarial game, a costly task that still relies on human play testing and expert knowledge.</li>
+<li><strong>Evaluate the safety of a system</strong>: for example, in Red teaming for finding prompt attacks against large language models, or for automatically finding bugs in a game.</li>
+<li><strong>Find counter-strategies</strong>: in a defense scenario, it can be useful to know all the possible strategies of the opponent and have access to a database of all the possible counter-strategies.</li>
+<li><strong>Find a robust solution</strong>: by coevolving both sides, adversarial QD avoids overfitting to a fixed set of opponents.</li>
+<li><strong>Study open-ended systems</strong>: adversarial QD can help artificial life research create an open-ended process by continually promoting a virtuous circle or an arms race. </li>
+</ul>
+<p>For each of those end-goals, the practitioner needs a different metric, which we also discuss in our second paper <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... &amp; Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.">26</span>]</span>.</p>
+<h3 id="open-ended-coevolution">Open-ended coevolution</h3>
+<p>The main limitation of these two works is the non-open-endedness of the adversarial domains. We're enthusiastic about applying GAME to more open-ended problems to understand the emergence of artificial open-endedness better.</p>
+<h3 id="playing-with-game">Playing with GAME</h3>
+<p>If, like us, you want to play with GAME for your own adversarial problems, we recommend looking at the examples in our second paper <a href="https://github.com/Timothee-ANNE/GAME_tournament_informed">Repo</a>.
+We are also open to collaboration and will be at Gecco '26 in San José, Costa Rica, July 13 - 17, 2026, to present our second paper. </p>
+<h2 id="appendix">Appendix</h2>
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p>Funded by the armasuisse S+T project F00-007.</p>
+<h3 id="bibtex-citations">BibTeX citations</h3>
+<p>Main paper for GAME: <a href="https://arxiv.org/pdf/2505.06617v3">PDF</a>, <a href="https://github.com/Timothee-ANNE/GAME">Repo</a>, and citation:</p>
+<div class="codehilite"><pre><span></span><code><span class="nc">@ARTICLE</span><span class="p">{</span><span class="nl">11494045</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Anne, Timothée and Syrkis, Noah and Elhosni, Meriem and Turati, Florian and Legendre, Franck and Jaquier, Alain and Risi, Sebastian}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{IEEE Transactions on Evolutionary Computation}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">volume</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">number</span><span class="p">=</span><span class="s">{}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">pages</span><span class="p">=</span><span class="s">{1-1}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">keywords</span><span class="p">=</span><span class="s">{Video games; Quality-Diversity; Adversarial Coevolution}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="p">=</span><span class="s">{10.1109/TEVC.2026.3686956}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Second citation for the study of the task selection mechanism and the evaluations on Pong, Cat-and-mouse, and Pursuers-and-evaders: <a href="https://arxiv.org/pdf/2601.19562">PDF</a>, <a href="https://github.com/Timothee-ANNE/GAME_tournament_informed">Repo</a>, and citation:</p>
+<div class="codehilite"><pre><span></span><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">anne2026tournamentinformedadversarialquality</span><span class="p">,</span>
+<span class="w">      </span><span class="na">title</span><span class="p">=</span><span class="s">{Tournament Informed Adversarial Quality Diversity}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="na">author</span><span class="p">=</span><span class="s">{Timothée Anne and Noah Syrkis and Meriem Elhosni and Florian Turati and Alexandre Manai and Franck Legendre and Alain Jaquier and Sebastian Risi}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">eprint</span><span class="p">=</span><span class="s">{2601.19562}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">archivePrefix</span><span class="p">=</span><span class="s">{arXiv}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">primaryClass</span><span class="p">=</span><span class="s">{cs.NE}</span><span class="p">,</span>
+<span class="w">      </span><span class="na">url</span><span class="p">=</span><span class="s">{https://arxiv.org/abs/2601.19562}</span><span class="p">,</span><span class="w"> </span>
+<span class="w">      </span><span class="na">note</span><span class="p">=</span><span class="s">{Accepted at GECCO &#39;26, San José, Costa Rica}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><section class="references-section"><h2>References</h2><ol><li>T. Anne and J. Mouret, Multi-task multi-behavior map-elites, in Proceedings of the Companion Conference on Genetic and Evolutionary Computation, pp. 111–114, 2023.</li><li>J. K. Pugh, L. B. Soros, and K. O. Stanley, Quality diversity: A new frontier for evolutionary computation, Frontiers in Robotics and AI, vol. 3, pp. 40, 2016.</li><li>A. Cully, J. Clune, D. Tarapore, and J. Mouret, Robots that can adapt like animals, Nature, vol. 521, no. 7553, pp. 503–507, 2015.</li><li>D. Gravina, A. Khalifa, A. Liapis, J. Togelius, and G. N. Yannakakis, Procedural content generation through quality diversity, in 2019 IEEE Conference on Games (CoG), pp. 1–8, 2019.</li><li>Y. Jiang, D. Salley, A. Sharma, G. Keenan, M. Mullin, and L. Cronin, An artificial intelligence enabled chemical synthesis robot for exploration and optimization of nanomaterials, Science advances, vol. 8, no. 40, pp. eabo2626, 2022.</li><li>L. Brevault and M. Balesdent, Bayesian Quality-Diversity approaches for constrained optimization problems with mixed continuous, discrete and categorical variables, Engineering Applications of Artificial Intelligence, vol. 133, pp. 108118, 2024.</li><li>M. C. Fontaine, S. Lee, L. B. Soros, F. d. M. Silva, J. Togelius, and A. K. Hoover, Mapping hearthstone deck spaces through map-elites with sliding boundaries, in Proceedings of The Genetic and Evolutionary Computation Conference, pp. 161–169, 2019.</li><li>M. C. Fontaine, J. Togelius, S. Nikolaidis, and A. K. Hoover, Covariance matrix adaptation for the rapid illumination of behavior space, in Proceedings of the 2020 genetic and evolutionary computation conference, pp. 94–102, 2020.</li><li>K. Steckel and J. Schrum, Illuminating the space of beatable lode runner levels produced by various generative adversarial networks, in Proceedings of the genetic and evolutionary computation conference companion, pp. 111–112, 2021.</li><li>M. Samvelyan, D. Paglieri, M. Jiang, J. Parker-Holder, and T. Rocktaschel, Multi-agent diagnostics for robustness via illuminated diversity, arXiv preprint arXiv:2401.13460, 2024.</li><li>D. Ganguli, L. Lovitt, J. Kernion, A. Askell, Y. Bai, S. Kadavath, B. Mann, E. Perez, N. Schiefer, K. Ndousse, and et al., Red teaming language models to reduce harms: Methods, scaling behaviors, and lessons learned, arXiv preprint arXiv:2209.07858, 2022.</li><li>M. Samvelyan, S. Raparthy, A. Lupu, E. Hambro, A. H. Markosyan, M. Bhatt, Y. Mao, M. Jiang, J. Parker-Holder, J. Foerster, T. Rocktaschel, and R. Raileanu, Rainbow Teaming: Open-Ended Generation of Diverse Adversarial Prompts, ArXiv, vol. abs/2402.16822, 2024.</li><li>R. Wang, K. Xue, Z. Qin, Z. Li, S. Tang, H. Li, S. Liu, and C. Qian, Quality-Diversity Red-Teaming: Automated Generation of High-Quality and Diverse Attackers for Large Language Models, arXiv preprint arXiv:2506.07121, 2025.</li><li>Q. Dang, C. Ngo, and T. Hy, RainbowPlus: Enhancing Adversarial Prompt Generation via Evolutionary Quality-Diversity Search, arXiv preprint arXiv:2504.15047, 2025.</li><li>T. H. Nguyen and N. H. Luong, Diversifying Adversarial Attacks on Text-to-image Generation, in Proceedings of the Genetic and Evolutionary Computation Conference Companion, pp. 315–318, 2025.</li><li>M. A. Bedau, J. S. McCaskill, N. H. Packard, S. Rasmussen, C. Adami, D. G. Green, T. Ikegami, K. Kaneko, and T. S. Ray, Open problems in artificial life, Artificial life, vol. 6, no. 4, pp. 363–376, 2000.</li><li>A. Dorin and S. Stepney, What Is Artificial Life Today, and Where Should It Go?, 2024.</li><li>R. Wang, J. Lehman, J. Clune, and K. O. Stanley, Poet: open-ended coevolution of environments and their optimized solutions, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 142–151, 2019.</li><li>R. Wang, J. Lehman, A. Rawal, J. Zhi, Y. Li, J. Clune, and K. Stanley, Enhanced poet: Open-ended reinforcement learning through unbounded invention of learning challenges and their solutions, in International conference on machine learning, pp. 9940–9951, 2020.</li><li>V. Costa, N. Lourenco, J. Correia, and P. Machado, Exploring the evolution of gans through quality diversity, in Proceedings of the 2020 genetic and evolutionary computation conference, pp. 297–305, 2020.</li><li>A. Dharna, C. Lu, and J. Clune, Quality-Diversity Self-Play: Open-Ended Strategy Innovation via Foundation Models, in NeurIPS 2024 Workshop on Open-World Agents, 2024.</li><li>A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, and et al., Learning transferable visual models from natural language supervision, in International conference on machine learning, pp. 8748–8763, 2021.</li><li>V. Vassiliades, K. Chatzilygeroudis, and J. Mouret, A comparison of illumination algorithms in unbounded spaces, in Proceedings of the Genetic and Evolutionary Computation Conference Companion, pp. 1578–1581, 2017.</li><li>Anne, T., Syrkis, N., Elhosni, M., Turati, F., Legendre, F., Jaquier, A., & Risi, S. (2025). Adversarial Coevolutionary Illumination with Generational Adversarial MAP-Elites. IEEE Transactions on Evolutionary Computation. DOI: 10.1109/TEVC.2026.3686956.</li><li>T. Anne, N. Syrkis, M. Elhosni, F. Turati, F. Legendre, A. Jaquier, and S. Risi, Generational Adversarial MAP-Elites for Multi-Agent Game Illumination, ALIFE '25, Kyoto, Japan, 2025.</li><li>Anne, T., Syrkis, N., Elhosni, M., Turati, F., Manai, A., Legendre, F., ... & Risi, S. (2026). Tournament Informed Adversarial Quality Diversity. Accepted as a full paper in the Genetic and Evolutionary Computation Conference.</li><li>T. Anne, N. Syrkis, M. Elhosni, F. Turati, F. Legendre, A. Jaquier, and S. Risi, Harnessing language for coordination: A framework and benchmark for llm-driven multi-agent control, IEEE Transactions on Games, 2025.</li><li>J. Bradbury, R. Frostig, P. Hawkins, M. J. Johnson, C. Leary, D. Maclaurin, G. Necula, A. Paszke, J. VanderPlas, S. Wanderman-Milne, and Q. Zhang, JAX: composable transformations of Python+NumPy programs, 2018.</li><li>M. Colledanchise and P. Ogren, Behavior trees in robotics and AI: An introduction. CRC Press, 2018.</li><li>M. Kimura, The neutral theory of molecular evolution, Scientific American, vol. 241, no. 5, pp. 98–129, 1979.</li><li>J. Lehman and R. Miikkulainen, Enhancing divergent search through extinction events, in Proceedings of the 2015 Annual Conference on Genetic and Evolutionary Computation, pp. 951–958, 2015.</li><li>K. O. Stanley and R. Miikkulainen, Evolving neural networks through augmenting topologies, Evolutionary computation, vol. 10, no. 2, pp. 99–127, 2002.</li><li>J. Bhatia, H. Jackson, Y. Tian, J. Xu, and W. Matusik, Evolution gym: A large-scale benchmark for evolving soft robots, Advances in Neural Information Processing Systems, vol. 34, pp. 2201–2214, 2021.</li><li>N. Cheney, J. Bongard, V. SunSpiral, and H. Lipson, Scalable co-optimization of morphology and control in embodied machines, Journal of The Royal Society Interface, vol. 15, no. 143, pp. 20170937, 2018.</li><li>A. Mertan and N. Cheney, Modular controllers facilitate the co-optimization of morphology and control in soft robots, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 174–183, 2023.</li><li>G. Nadizar, E. Medvet, and D. G. Wilson, Enhancing adaptability in embodied agents: A multi-quality-diversity approach, IEEE Transactions on Evolutionary Computation, 2025.</li><li>N. Cheney, R. MacCurdy, J. Clune, and H. Lipson, Unshackling evolution: evolving soft robots with multiple materials and a powerful generative encoding, ACM SIGEVOlution, vol. 7, no. 1, pp. 11–23, 2014.</li><li>S. Kriegman, N. Cheney, F. Corucci, and J. C. Bongard, A minimal developmental model can increase evolvability in soft robots, in Proceedings of the Genetic and Evolutionary Computation Conference, pp. 131–138, 2017.</li><li>B. Entertainment, Hearthstone: Heroes of Warcraft, 2014.</li><li>Y. Daniel and et al., Hearthbreaker: A Hearthstone Simulator, 2014.</li><li>J. Mouret and J. Clune, Illuminating search spaces by mapping elites, arXiv preprint arXiv:1504.04909, 2015.</li><li>K. Deb and H. Jain, An evolutionary many-objective optimization algorithm using reference-point-based nondominated sorting approach, part I: solving problems with box constraints, IEEE transactions on evolutionary computation, vol. 18, no. 4, pp. 577–601, 2013.</li></ol></section></p>
+        </article>
+        
+        <footer style="padding: 5rem 0; text-align: center; color: #999; font-size: 0.8rem; font-family: 'Inter', sans-serif;">
+            © 2026 · Adversarial Coevolutionary Illumination <br> with Generational Adversarial MAP-Elites
+        </footer>
+    </div>
+
+</body>
+</html>

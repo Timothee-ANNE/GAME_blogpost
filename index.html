@@ -479,6 +479,10 @@
 <li>Bootstrapping each generation using solutions from previous ones accelerates the search compared to starting from scratch at each generation. However, the only variant that consistently generates new solutions across all generations is the one without bootstrapping. This phenomenon is related to extinction events <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="J. Lehman and R. Miikkulainen, Enhancing divergent search through extinction events, in Proceedings of the 2015 Annual Conference on Genetic and Evolutionary Computation, pp. 951–958, 2015.">33</span>]</span> and warrants further investigation, as it currently does not yield the best diversity or quality. </li>
 <li>The use of BTs with a fixed set of atomics limits the open-endedness of the search space. An interesting future direction is to use end-to-end neural networks that map observations to actions, potentially employing neuroevolution <span class="cite-ref-group">[<span class="cite-ref-num" data-tooltip="K. O. Stanley and R. Miikkulainen, Evolving neural networks through augmenting topologies, Evolutionary computation, vol. 10, no. 2, pp. 99–127, 2002.">34</span>]</span>, to move toward a more open-ended search space.</li>
 </ul>
+<figure class="post-figure">
+  <video autoplay loop muted playsinline src=".//assets/parabellum_teaser.mp4"></video>
+  <div class="figure-caption"><strong>Parabellum examples</strong>: 16 behaviors selected by applying clustering to a PCA projection of the VEM behavior space from one execution of GAME on Parabellum.</div>
+</figure>
 <h3 id="soft-robot-wrestling">Soft-robot: Wrestling</h3>
 <figure class="post-figure">
   <video autoplay loop muted playsinline src="./assets/Wrestling_pca.mp4"></video>
@@ -491,6 +495,10 @@
 <li>The one-sided baseline obtains a slightly greater coverage of behaviors. This is mainly because it doesn't have to restart its search at each generation, unlike GAME, which, even with the bootstrap, still has to allocate some evaluation to repopulate the archive. </li>
 <li>GAME's morphologies nearly always beat the morphologies of the one-sided baseline, which overfit the fixed set of random opponents. When checking the average velocity of the morphologies, GAME finds morphologies with significantly higher velocities than the one-sided baseline, which could be satisfied with just slightly higher velocities than random morphologies. This validates the need for coevolution in adversarial problems. </li>
 </ul>
+<figure class="post-figure">
+  <video autoplay loop muted playsinline src="./assets/wrestling_teaser.mp4"></video>
+  <div class="figure-caption"><strong>Wrestling examples</strong>: 18 behaviors selected by applying clustering to a PCA projection of the VEM behavior space from one execution of GAME on Wrestling.</div>
+</figure>
 <figure class="post-figure">
   <img src="./assets/wrestling_both_species_generations.png" alt="figure" loading="lazy">
   <div class="figure-caption">ELO Score performance of the morphological species through the generations for one run of GAME. <span style=</div>

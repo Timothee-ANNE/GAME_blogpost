@@ -188,6 +188,12 @@ In Parabellum, we compare GAME to ablations and a variant with a multi-objective
 - Bootstrapping each generation using solutions from previous ones accelerates the search compared to starting from scratch at each generation. However, the only variant that consistently generates new solutions across all generations is the one without bootstrapping. This phenomenon is related to extinction events [^lehman2015enhancing] and warrants further investigation, as it currently does not yield the best diversity or quality. 
 - The use of BTs with a fixed set of atomics limits the open-endedness of the search space. An interesting future direction is to use end-to-end neural networks that map observations to actions, potentially employing neuroevolution [^stanley2002evolving], to move toward a more open-ended search space.
 
+::video{
+  src=".//assets/parabellum_teaser.mp4" 
+  caption="**Parabellum examples**: 16 behaviors selected by applying clustering to a PCA projection of the VEM behavior space from one execution of GAME on Parabellum."
+  } 
+
+
 ### Soft-robot: Wrestling
 
 ::video{src="./assets/Wrestling_pca.mp4" caption="**Archive projection**: 2D PCA of the VEM behavior space after running GAME in Wrestling for 200k evaluations over 10 generations."}
@@ -200,6 +206,11 @@ We evaluate GAME against a one-sided baseline (i.e., we use MTMB-ME against a fi
 
 - The one-sided baseline obtains a slightly greater coverage of behaviors. This is mainly because it doesn't have to restart its search at each generation, unlike GAME, which, even with the bootstrap, still has to allocate some evaluation to repopulate the archive. 
 - GAME's morphologies nearly always beat the morphologies of the one-sided baseline, which overfit the fixed set of random opponents. When checking the average velocity of the morphologies, GAME finds morphologies with significantly higher velocities than the one-sided baseline, which could be satisfied with just slightly higher velocities than random morphologies. This validates the need for coevolution in adversarial problems. 
+
+::video{
+  src="./assets/wrestling_teaser.mp4" 
+  caption="**Wrestling examples**: 18 behaviors selected by applying clustering to a PCA projection of the VEM behavior space from one execution of GAME on Wrestling."
+  } 
 
 ::figure{src="./assets/wrestling_both_species_generations.png" caption="ELO Score performance of the morphological species through the generations for one run of GAME. <span style="color: #2070b4;">Blue</span> side (left) and <span style="color: #ca171c;">Red</span> side (right)."}
 

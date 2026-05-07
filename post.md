@@ -107,7 +107,7 @@ authors:
   - name: "Alain Jaquier"
     affiliation: "armasuisse Science+Technology"
   - name: "Sebastian Risi"
-    affiliation: "IT University of Copenhagen"
+    affiliation: "IT University of Copenhagen and Sakana AI"
 teaser_items: |
   <div class="teaser-item">
     <video autoplay loop muted playsinline src="./assets/parabellum_teaser.mp4"></video>
@@ -139,11 +139,13 @@ Evolving a set of diverse, high-quality solutions that optimize a fitness functi
 
 QD can be used to illuminate adversarial problems, for which it can be critical to identify all possible attack strategies, for example, to evaluate a system's current safety and defend accordingly. Examples of applications include: video games for automatic balancing of competitive games [^fontaine2019mapping, fontaine2020covariance], generalization evaluation of machine learning models [^steckel2021illuminating, samvelyan2024multi], and red teaming [^ganguli2022red], i.e., finding adversarial prompts that generate harmful content [^Samvelyan2024RainbowTOA, wang2025quality, dang2025rainbowplus, nguyen2025diversifying]. Those works illuminate only one side of the adversarial problem while fixing the other, thereby providing only partial illumination against the set of opposing problems picked by the experimenter.
 
-Evolving both sides follows the artificial life goal of creating an open-ended evolutionary process through adversarial coevolution [^bedau2000open, dorin2024artificial]. For example, the POET algorithm [^wang2019poet, wang2020enhanced] coevolves bipedal walkers' policies and environments to create an automatic curriculum toward more robust policies;  [^costa2020exploring] coevolve Generative Adversarial Networks (GANs) to improve their performance using QD; and recently, [^dharna2024quality] coevolve Python scripts in a pursuer and evader game. However, a limitation of those works is that they are domain-specific.
+Evolving both sides follows the artificial life goal of creating an open-ended evolutionary process through adversarial coevolution [^bedau2000open, dorin2024artificial]. For example, the POET algorithm [^wang2019poet, wang2020enhanced] coevolves bipedal walkers' policies and environments to create an automatic curriculum toward more robust policies;  [^costa2020exploring] coevolve Generative Adversarial Networks (GANs) to improve their performance using QD; and [^dharna2024quality] coevolve Python scripts in a pursuer and evader game.  A limitation of those works is that they are domain-specific. 
+
+More recently, Digital Red Queen (DRQ) [^kumar2026digital] is a self-play algorithm that leverages LLMs to evolve assembly scripts that compete for survival in a memory-bound virtual machine. DRQ sequentially evolves a solution that competes against all previous elite solutions, leveraging MAP-Elites [^mouret2015illuminating] at each generation to preserve diversity. DRQ applies only to adversarial environments where solutions compete against each other to survive. In contrast, we propose a coevolutionary QD method that applies to any two-opponent adversarial problem.
 
 We present **Generational Adversarial MAP-Elites** (GAME), a new coevolutionary QD algorithm that illuminates both sides of an adversarial problem by alternating the evolution of solutions on one side that maximize the adversarial fitness against fixed opponents from the other side (see figure above). A second contribution is the use of a Vision Embedding Model (VEM) (we use CLIP [^radford2021learning]) to obtain a domain-agnostic behavior descriptor from videos, without requiring a handcrafted behavior descriptor. To handle the high dimensionality of the embedding space, GAME uses an unstructured archive [^vassiliades2017comparison].
 
-This blog post includes two publications: the original GAME paper [^anne2026game] (the extended version of [^anne2025adversarial]) and a first improvement [^anne2026tournament].
+This blog post includes two publications: the original GAME paper [^anne2026game] (the extended version of [^anne2025adversarial]) and a following study to improve the adversarial quality and diversity of the found solutions [^anne2026tournament].
 
 ## The challenges of adversarial quality diversity
 ::figure{src="./assets/challenge.png"}
@@ -173,7 +175,7 @@ More formally, GAME:
 
 ### Battle game: Parabellum
 
-::video{src="./assets/Parabellum_pca.mp4"}
+::video{src="./assets/Parabellum_pca.mp4" caption="**Archive projection**: 2D PCA of the VEM behavior space after running GAME in Parabellum for 2M evaluations over 20 generations."}
 
 Parabellum [^anne2025harnessing] is a battle game research environment implemented in JAX [^jax2018github] for fast parallelization. Two sides, <span style="color: #2070b4;">Blue</span> and <span style="color: #ca171c;">Red</span>, aim to eliminate the other. At each time step, each unit can either move, stand, attack an enemy in reach, or heal an ally in reach, given its local observation (a unit can only see other units within its sight range). There are five unit types with different health, speed, attack range, and attack damage, each shown in a different color. In our experiment, each side comprises 32 units of each type (i.e., 160 units in total). 
 
@@ -188,7 +190,7 @@ In Parabellum, we compare GAME to ablations and a variant with a multi-objective
 
 ### Soft-robot: Wrestling
 
-::video{src="./assets/Wrestling_pca.mp4"}
+::video{src="./assets/Wrestling_pca.mp4" caption="**Archive projection**: 2D PCA of the VEM behavior space after running GAME in Wrestling for 200k evaluations over 10 generations."}
 
 Wrestling is a custom EvoGym [^bhatia2021evolution] environment in which two 2D soft robots fight to be the closest to the center of the arena. While the coevolution of morphology and its control is an interesting and challenging topic [^cheney2018scalable, bhatia2021evolution, mertan2023modular, nadizar2025enhancing], it is beyond the scope of this work to explore the intersection of adversarial coevolution and body–brain coevolution. We instead focus on the adversarial coevolution of morphology in an adversarial environment, where the morphology passively provides actuation. We follow [^cheney2014unshackling, kriegman2017minimal] and define passive and active voxels that change volume according to a sine-wave pattern. GAME evolves 5x5 robots with the constraints that all non-empty voxels are connected and that there is at least one actuated voxel. 
 
